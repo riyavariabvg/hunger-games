@@ -1,98 +1,74 @@
 import java.util.Map;
 
 public class CommandParser {
-    public void parse(String input, Player player, Map<String, Room> rooms) {
-        String[] words = input.trim().toLowerCase().split("\\s+");
-        if (words.length == 0) {
-            System.out.println("Please enter a command.");
-            return;
-        }
+    public static String parse(String input, Player player, Map<String, Room> rooms) {
+        String[] tokens = input.trim().split(" ");
+        if (tokens.length == 0) return "Enter a command.";
 
-        String command = words[0];
+        String cmd = tokens[0].toLowerCase();
+        Room room = rooms.get(player.getCurrentRoomId());
 
-        switch (command) {
+        switch (cmd) {
             case "go":
-                if (words.length < 2) {
-                    System.out.println("Go where?");
+                if (tokens.length < 2) return "Go where?";
+                String dir = tokens[1].toLowerCase();
+                if (room.getExits().containsKey(dir)) {
+                    player.setCurrentRoomId(room.getExits().get(dir));
+                    return rooms.get(player.getCurrentRoomId()).getLongDescription();
                 } else {
-                    String direction = words[1];
-                    Room currentRoom = rooms.get(player.getCurrentRoomId());
-                    String nextRoomId = currentRoom.getExits().get(direction);
-                    if (nextRoomId != null) {
-                        player.setCurrentRoomId(nextRoomId);
-                        System.out.println("You move " + direction + ".");
-                        currentRoom = rooms.get(player.getCurrentRoomId());
-                        System.out.println(currentRoom.getLongDescription());
-
-                    } else {
-                        System.out.println("You can't go that way.");
-                    }
+                    return "You can't go that way.";
                 }
-                break;
+
             case "look":
-                Room currentRoom = rooms.get(player.getCurrentRoomId());
-                System.out.println(currentRoom.getLongDescription());
-                break;
+                return room.getLongDescription();
+
             case "inventory":
                 if (player.getInventory().isEmpty()) {
-                    System.out.println("Your inventory is empty.");
-                } else {
-                    System.out.println("You are carrying:");
-                    for (Item item : player.getInventory()) {
-                        System.out.println("- " + item.getName());
-                    }
+                    return "You are not carrying anything.";
                 }
-                break;
+                StringBuilder inv = new StringBuilder("You are carrying:\n");
+                for (Item item : player.getInventory()) {
+                    inv.append("- ").append(item.getName()).append(": ").append(item.getDescription()).append("\n");
+                }
+                return inv.toString();
+
             case "take":
-                if (words.length < 2) {
-                    System.out.println("Take what?");
-                } else {
-                    String itemName = words[1];
-                    Room room = rooms.get(player.getCurrentRoomId());
-                    Item itemToTake = null;
-                    for (Item item : room.getItems()) {
-                        if (item.getName().equalsIgnoreCase(itemName)) {
-                            itemToTake = item;
-                            break;
-                        }
-                    }
-                    if (itemToTake != null) {
-                        room.removeItem(itemToTake);
-                        player.addItem(itemToTake);
-                        System.out.println("You take the " + itemToTake.getName() + ".");
-                    } else {
-                        System.out.println("There is no " + itemName + " here.");
+                if (tokens.length < 2) return "Take what?";
+                String takeItem = input.substring(5).trim().toLowerCase(); 
+                for (Item item : room.getItems()) {
+                    if (item.getName().equalsIgnoreCase(takeItem)) {
+                        player.addItem(item);
+                        room.getItems().remove(item);
+                        return "You took the " + item.getName() + ".";
                     }
                 }
-                break;
+                return "There is no such item here.";
+
             case "drop":
-                if (words.length < 2) {
-                    System.out.println("Drop what?");
-                } else {
-                    String itemName = words[1];
-                    Item itemToDrop = null;
-                    for (Item item : player.getInventory()) {
-                        if (item.getName().equalsIgnoreCase(itemName)) {
-                            itemToDrop = item;
-                            break;
-                        }
-                    }
-                    if (itemToDrop != null) {
-                        player.removeItem(itemToDrop);
-                        Room room = rooms.get(player.getCurrentRoomId());
-                        room.addItem(itemToDrop);
-                        System.out.println("You drop the " + itemToDrop.getName() + ".");
-                    } else {
-                        System.out.println("You don't have a " + itemName + ".");
+                if (tokens.length < 2) return "Drop what?";
+                String dropItem = input.substring(5).trim().toLowerCase();
+                for (Item item : player.getInventory()) {
+                    if (item.getName().equalsIgnoreCase(dropItem)) {
+                        player.removeItem(item);
+                        room.getItems().add(item);
+                        return "You dropped the " + item.getName() + ".";
                     }
                 }
-                break;
+                return "You don't have that item.";
+
             case "help":
-                System.out.println("Available commands: go [direction], look, take [item], drop [item], inventory, help");
-                break;
+                return """
+                        Commands:
+                        - go <direction> (e.g. go clockwise)
+                        - look
+                        - inventory
+                        - take <item>
+                        - drop <item>
+                        - help
+                        """;
+
             default:
-                System.out.println("I don't understand that command.");
-                break;
+                return "Unknown command.";
         }
     }
 }

@@ -22,11 +22,30 @@ public class Player {
         inventory.add(item);
     }
 
+    public boolean hasItem(String itemName) {
+        return inventory.stream().anyMatch(i -> i.getName().equalsIgnoreCase(itemName));
+    }
+
     public void removeItem(Item item) {
         inventory.remove(item);
     }
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void clearInventory() {
+        inventory.clear();
+    }
+
+    public void displayInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        } else {
+            System.out.println("You are carrying:");
+            for (Item item : inventory) {
+                System.out.println("- " + item.getName() + ": " + item.getDescription());
+            }
+        }
     }
 }

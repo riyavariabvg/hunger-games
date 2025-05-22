@@ -1,25 +1,170 @@
 {
-    "entrance": {
-      "name": "Entrance Hall",
-      "description": "You are in a grand entrance hall. A door leads north.",
-      "exits": {
-        "north": "library"
-      },
-      "items": [
-        {
-          "id": "key1",
-          "name": "Key",
-          "description": "A small rusty key."
-        }
-      ]
+  "Section1": {
+    "description": "You are in Section 1. Mist rises from the swampy ground.",
+    "exits": {
+      "clockwise": "Section2",
+      "counterclockwise": "Section12"
     },
-    "library": {
-      "name": "Library",
-      "description": "Books line the walls. It's quiet.",
-      "exits": {
-        "south": "entrance"
-      },
-      "items": []
-    }
+    "items": [
+      {
+        "id": "swamp_stick",
+        "name": "Swamp Stick",
+        "description": "A soggy stick that might be useful."
+      }
+    ]
+  },
+  "Section2": {
+    "description": "You are in Section 2. The air smells of smoke. Trees are burning here.",
+    "exits": {
+      "clockwise": "Section3",
+      "counterclockwise": "Section1"
+    },
+    "items": [
+      {
+        "id": "burnt_leaf",
+        "name": "Burnt Leaf",
+        "description": "A leaf charred by flames."
+      }
+    ]
+  },
+  "Section3": {
+    "description": "You are in Section 3. Lightning strikes in the distance.",
+    "exits": {
+      "clockwise": "Section4",
+      "counterclockwise": "Section2"
+    },
+    "items": [
+      {
+        "id": "lightning_stone",
+        "name": "Lightning Stone",
+        "description": "A rock charged by a lightning bolt."
+      }
+    ]
+  },
+  "Section4": {
+    "description": "You are in Section 4. The ground is cracked and dry. It's hot here.",
+    "exits": {
+      "clockwise": "Section5",
+      "counterclockwise": "Section3"
+    },
+    "items": [
+      {
+        "id": "dried_fruit",
+        "name": "Dried Fruit",
+        "description": "A small piece of fruit, dried by the heat."
+      }
+    ]
+  },
+  "Section5": {
+    "description": "You are in Section 5. A large body of water blocks your path.",
+    "exits": {
+      "clockwise": "Section6",
+      "counterclockwise": "Section4"
+    },
+    "items": [
+      {
+        "id": "water_bottle",
+        "name": "Water Bottle",
+        "description": "A half-full bottle of water."
+      }
+    ]
+  },
+  "Section6": {
+    "description": "You are in Section 6. Bees buzz loudly. Watch out!",
+    "exits": {
+      "clockwise": "Section7",
+      "counterclockwise": "Section5"
+    },
+    "items": [
+      {
+        "id": "bee_smoke",
+        "name": "Bee Smoke Canister",
+        "description": "Used to calm bees."
+      }
+    ]
+  },
+  "Section7": {
+    "description": "You are in Section 7. Thick fog surrounds you. Visibility is low.",
+    "exits": {
+      "clockwise": "Section8",
+      "counterclockwise": "Section6"
+    },
+    "items": [
+      {
+        "id": "flashlight",
+        "name": "Flashlight",
+        "description": "A small flashlight with low battery."
+      }
+    ]
+  },
+  "Section8": {
+    "description": "You are in Section 8. The forest is quiet, too quiet...",
+    "exits": {
+      "clockwise": "Section9",
+      "counterclockwise": "Section7"
+    },
+    "items": [
+      {
+        "id": "camouflage_cloth",
+        "name": "Camouflage Cloth",
+        "description": "Helps you blend in with trees."
+      }
+    ]
+  },
+  "Section9": {
+    "description": "You are in Section 9. You hear distant cannon shots.",
+    "exits": {
+      "clockwise": "Section10",
+      "counterclockwise": "Section8"
+    },
+    "items": [
+      {
+        "id": "tribute_token",
+        "name": "Tribute Token",
+        "description": "A small metal token dropped by a fallen tribute."
+      }
+    ]
+  },
+  "Section10": {
+    "description": "You are in Section 10. A field of strange flowers surrounds you.",
+    "exits": {
+      "clockwise": "Section11",
+      "counterclockwise": "Section9"
+    },
+    "items": [
+      {
+        "id": "sleep_flower",
+        "name": "Sleep Flower",
+        "description": "Smells sweet but may be dangerous."
+      }
+    ]
+  },
+  "Section11": {
+    "description": "You are in Section 11. The trees here are filled with tracker jackers.",
+    "exits": {
+      "clockwise": "Section12",
+      "counterclockwise": "Section10"
+    },
+    "items": [
+      {
+        "id": "repellent",
+        "name": "Tracker Jacker Repellent",
+        "description": "A strong-smelling substance to keep bugs away."
+      }
+    ]
+  },
+  "Section12": {
+    "description": "You are in Section 12. You see ruins of an old building.",
+    "exits": {
+      "clockwise": "Section1",
+      "counterclockwise": "Section11"
+    },
+    "items": [
+      {
+        "id": "broken_map",
+        "name": "Broken Map",
+        "description": "A torn piece of a map showing part of the arena."
+      }
+    ]
   }
-  
+}

@@ -5,7 +5,7 @@ public class Room {
     private String id;
     private String name;
     private String description;
-    private Map<String, String> exits; // direction → roomId
+    private Map<String, String> exits;
     private List<Item> items;
 
     public Room(String id, String name, String description, Map<String, String> exits, List<Item> items) {
@@ -16,6 +16,7 @@ public class Room {
         this.items = items;
     }
 
+    // Getters
     public String getId() {
         return id;
     }
@@ -24,7 +25,7 @@ public class Room {
         return name;
     }
 
-    public String getShortDescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -36,14 +37,17 @@ public class Room {
         return items;
     }
 
-    public void removeItem(Item item) {
-        items.remove(item);
-    }
-
+    
     public void addItem(Item item) {
         items.add(item);
     }
 
+    
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
+    
     public String getLongDescription() {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append("\n");
@@ -54,17 +58,16 @@ public class Room {
             for (Item item : items) {
                 sb.append(item.getName()).append(", ");
             }
-            // Remove trailing comma and space
-            sb.setLength(sb.length() - 2);
+            sb.setLength(sb.length() - 2); 
             sb.append(".\n");
         }
 
         if (!exits.isEmpty()) {
             sb.append("Exits: ");
             for (String direction : exits.keySet()) {
-                sb.append(direction).append(", ");
+                sb.append(direction).append(" -> ").append(exits.get(direction)).append(", ");
             }
-            sb.setLength(sb.length() - 2);
+            sb.setLength(sb.length() - 2); 
             sb.append(".\n");
         }
 

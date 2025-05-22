@@ -1,43 +1,52 @@
+import com.google.gson.*;
 import java.io.FileReader;
 import java.util.*;
-import com.google.gson.*;
 
 public class RoomLoader {
     public Map<String, Room> loadRooms(String filePath) {
         Map<String, Room> rooms = new HashMap<>();
+
         try {
             Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(new FileReader(filePath), JsonObject.class);
+            JsonObject data = gson.fromJson(new FileReader(filePath), JsonObject.class);
 
-            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-                String roomId = entry.getKey();
-                JsonObject roomData = entry.getValue().getAsJsonObject();
+            for (String key : data.keySet()) {
+                JsonObject obj = data.getAsJsonObject(key);
 
-                String name = roomData.get("name").getAsString();
-                String description = roomData.get("description").getAsString();
+                String name = key;  
+                String description = obj.get("description").getAsString();
 
+                
                 Map<String, String> exits = new HashMap<>();
-                JsonObject exitsJson = roomData.getAsJsonObject("exits");
-                for (Map.Entry<String, JsonElement> exit : exitsJson.entrySet()) {
-                    exits.put(exit.getKey(), exit.getValue().getAsString());
+                if (obj.has("exits")) {
+                    JsonObject exitsJson = obj.getAsJsonObject("exits");
+                    for (String dir : exitsJson.keySet()) {
+                        exits.put(dir, exitsJson.get(dir).getAsString());
+                    }
                 }
 
+                
                 List<Item> items = new ArrayList<>();
-                JsonArray itemsJson = roomData.getAsJsonArray("items");
-                for (JsonElement itemElement : itemsJson) {
-                    JsonObject itemObj = itemElement.getAsJsonObject();
-                    String itemId = itemObj.get("id").getAsString();
-                    String itemName = itemObj.get("name").getAsString();
-                    String itemDescription = itemObj.get("description").getAsString();
-                    items.add(new Item(itemId, itemName, itemDescription));
+                if (obj.has("items")) {
+                    JsonArray itemArray = obj.getAsJsonArray("items");
+                    for (JsonElement e : itemArray) {
+                        JsonObject itemObj = e.getAsJsonObject();
+                        String id = itemObj.get("id").getAsString();
+                        String itemName = itemObj.get("name").getAsString();
+                        String itemDesc = itemObj.get("description").getAsString();
+                        items.add(new Item(id, itemName, itemDesc));
+                    }
                 }
 
-                Room room = new Room(roomId, name, description, exits, items);
-                rooms.put(roomId, room);
+                
+                Room room = new Room(key, name, description, exits, items);
+                rooms.put(key, room);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return rooms;
     }
 }
