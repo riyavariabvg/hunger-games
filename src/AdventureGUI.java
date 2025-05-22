@@ -19,20 +19,24 @@ public class AdventureGUI {
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
 
-        
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         frame.add(imageLabel, BorderLayout.NORTH);
 
         
+        SpinnerPanel spinner = new SpinnerPanel("src/images/spinner.png");
+
         outputArea = new JTextArea();
         outputArea.setEditable(false);
         outputArea.setLineWrap(true);
         outputArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(outputArea);
-        frame.add(scrollPane, BorderLayout.CENTER);
 
-        
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(spinner, BorderLayout.NORTH);
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        frame.add(centerPanel, BorderLayout.CENTER);
+
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputField = new JTextField();
         JButton submitButton = new JButton("Submit");
@@ -45,9 +49,11 @@ public class AdventureGUI {
         frame.add(inputPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
+
         printText(game.getCurrentRoom().getLongDescription());
         updateRoomDisplay();
-    }
+}
+
 
     private void handleInput() {
         String input = inputField.getText().trim();
