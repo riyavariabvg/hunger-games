@@ -4,10 +4,12 @@ import java.util.List;
 public class Player {
     private String currentRoomId;
     private List<Item> inventory;
+    private int lives;
 
     public Player(String startingRoomId) {
         this.currentRoomId = startingRoomId;
         this.inventory = new ArrayList<>();
+        this.lives = 3;
     }
 
     public String getCurrentRoomId() {
@@ -38,6 +40,10 @@ public class Player {
         inventory.clear();
     }
 
+    public int getLives() {
+        return lives;
+    }
+    
     public void displayInventory() {
         if (inventory.isEmpty()) {
             System.out.println("Your inventory is empty.");
@@ -48,4 +54,5 @@ public class Player {
             }
         }
     }
+
 }

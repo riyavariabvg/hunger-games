@@ -56,8 +56,19 @@ public class AdventureGUI {
 
         frame.add(inputPanel, BorderLayout.SOUTH);
 
-        frame.setVisible(true);
-
+        frame.setVisible(true); 
+        printText("Welcome to the 75th Annual Hunger Games.");
+        int x = (int)(Math.random()*8)+5;
+        int y = (int)(Math.random()*2)+1;
+        String gender = "";
+            if (y==1) {
+                gender = "female";
+            } else {
+                gender = "male";
+            }
+        printText ("You have been reaped as the " + gender + " tribute from District " + x);
+        printText ("Your goal is to complete the challenges and stay alive. You have "  + game.getPlayer().getLives() + " lives");
+        printText ("May the odds be ever in your favour!");
         printText(game.getCurrentRoom().getLongDescription());
         updateRoomDisplay();
     }

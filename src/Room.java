@@ -7,13 +7,15 @@ public class Room {
     private String description;
     private Map<String, String> exits;
     private List<Item> items;
+    private Challenge challenge;
 
-    public Room(String id, String name, String description, Map<String, String> exits, List<Item> items) {
+    public Room(String id, String name, String description, Map<String, String> exits, List<Item> items, Challenge challenge) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.exits = exits;
         this.items = items;
+        this.challenge = challenge;
     }
 
     // Getters
@@ -37,7 +39,9 @@ public class Room {
         return items;
     }
 
-    
+    public Challenge getChallenge() {
+        return challenge;
+    }
     public void addItem(Item item) {
         items.add(item);
     }

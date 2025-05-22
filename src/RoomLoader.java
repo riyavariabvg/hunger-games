@@ -6,6 +6,7 @@ public class RoomLoader {
     public Map<String, Room> loadRooms(String filePath) {
         Map<String, Room> rooms = new HashMap<>();
 
+        
         try {
             Gson gson = new Gson();
             JsonObject data = gson.fromJson(new FileReader(filePath), JsonObject.class);
@@ -26,6 +27,7 @@ public class RoomLoader {
                 }
 
                 
+                
                 List<Item> items = new ArrayList<>();
                 if (obj.has("items")) {
                     JsonArray itemArray = obj.getAsJsonArray("items");
@@ -39,7 +41,8 @@ public class RoomLoader {
                 }
 
                 
-                Room room = new Room(key, name, description, exits, items);
+                Challenge challenge = getChallengeForRoom(key);
+                Room room = new Room(key, name, description, exits, items, challenge);
                 rooms.put(key, room);
             }
 
@@ -49,4 +52,35 @@ public class RoomLoader {
 
         return rooms;
     }
+    private Challenge getChallengeForRoom(String roomId) {
+        switch (roomId) {
+            case "Section1":
+                return new Challenge("Avoid the tracker jackers!", "repellent");
+            case "Section2":
+                return new Challenge("Fight the Career Tributes!", "sword");
+            case "Section3":
+                return new Challenge("Escape the paralyzing fog!", "flashlight");
+            case "Section4":
+                return new Challenge("Survive the fire!", "water bottle");
+            case "Section5":
+                return new Challenge("Resist the jabberjay screams!", "earplugs");
+            case "Section6":
+                return new Challenge("Fight the beast muttations!", "bee smoke");
+            case "Section7":
+                return new Challenge("Navigate the lightning zone!", "rubber boots");
+            case "Section8":
+                return new Challenge("Survive the blood rain!", "camouflage cloth");
+            case "Section9":
+                return new Challenge("Outrun the tsunami!", "raft");
+            case "Section10":
+                return new Challenge("Don't eat the poisonous fruit!", "sleep flower");
+            case "Section11":
+                return new Challenge("Escape the monkey mutts!", "repellent");
+            case "Section12":
+                return new Challenge("Survive the unknown insects!", "broken map");
+            default:
+                return new Challenge("Unknown challenge", "none");
+        }
+    }
+
 }
