@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class AdventureGUI {
     private JFrame frame;
-    private JTextArea outputArea;
+    private static JTextArea outputArea;
     private JTextField inputField;
     private JLabel imageLabel;
     private Game game;
@@ -70,6 +70,8 @@ public class AdventureGUI {
         printText ("Your goal is to complete the challenges and stay alive. You have "  + game.getPlayer().getLives() + " lives");
         printText ("May the odds be ever in your favour!");
         printText(game.getCurrentRoom().getLongDescription());
+        printChallengePrompt(game.getCurrentRoom().getChallenge());
+
         updateRoomDisplay();
     }
 
@@ -79,11 +81,13 @@ public class AdventureGUI {
         if (!input.isEmpty()) {
             printText("> " + input);
             printText(game.processCommand(input));
+            printChallengePrompt(game.getCurrentRoom().getChallenge());
             updateRoomDisplay();
+
         }
     }
 
-    private void printText(String text) {
+    public static void printText(String text) {
         outputArea.append(text + "\n");
     }
 
@@ -91,6 +95,9 @@ public class AdventureGUI {
         String roomId = game.getPlayer().getCurrentRoomId();
         ImageIcon icon = new ImageIcon("images/" + roomId + ".png");
         Image img = icon.getImage().getScaledInstance(800, 200, Image.SCALE_SMOOTH);
-        imageLabel.setIcon(new ImageIcon(img));
+        imageLabel.setIcon(new ImageIcon(img)); 
+    }
+    public void printChallengePrompt(Challenge challenge) {
+        printText(challenge.getPrompt());
     }
 }
