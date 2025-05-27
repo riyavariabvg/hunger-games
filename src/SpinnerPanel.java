@@ -8,13 +8,14 @@ import java.io.IOException;
 public class SpinnerPanel extends JPanel {
     private BufferedImage spinnerImage;
     private int displayWidth = 150;  
-    private int displayHeight = 150; 
+    private int displayHeight = 150;
 
     public SpinnerPanel(String imagePath) {
         try {
             spinnerImage = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
             System.err.println("Error loading spinner image: " + e.getMessage());
+            
         }
     }
 

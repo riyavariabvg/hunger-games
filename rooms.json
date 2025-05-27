@@ -1,4 +1,23 @@
 {
+  "Middle": {
+  "description": "You stand at the center of the arena. The air is tense, and all sections surround you.",
+  "exits": {
+    "clockwise": "Section1"
+  },
+  "items": [
+    {
+      "id": "central_rock",
+      "name": "Central Rock",
+      "description": "A large rock with strange markings, maybe useful."
+    }
+  ],
+  "challenge": {
+    "prompt": "You must gather your wits before entering the arena. What will you do first?",
+    "solution": "prepare"
+  }
+},
+
+  
   "Section1": {
     "description": "You are in Section 1. Mist rises from the swampy ground.",
     "exits": {
