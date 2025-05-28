@@ -2,14 +2,19 @@
   "Middle": {
     "items": [
       {
-        "id": "central_rock",
-        "name": "Central Rock",
-        "description": "A large rock with strange markings, maybe useful."
+        "id": "medicine_vial",
+        "name": "Medicine Vial",
+        "description": "A plastic container filled with medicine"
       },
       {
-        "id": "arena_dust",
-        "name": "Arena Dust",
-        "description": "Fine dust kicked up from the ground."
+        "id": "bow_and_arrow",
+        "name": "Bow and Arrow",
+        "description": "A wooden weapon, maybe helpful."
+      },
+      {
+        "id": "sword",
+        "name": "Sword",
+        "description": "A shiny, silver sword."
       }
     ]
   },
