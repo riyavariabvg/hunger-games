@@ -14,6 +14,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JLabel healthLabel;
     private JLabel challengesLabel;
     private JScrollPane scrollPane;
+    private SpinnerPanel spinnerPanel; // Add this field
     
     public AdventureGUI() {
         game = new Game();
@@ -25,7 +26,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private void initializeGUI() {
         setTitle("Welcome to the Hunger Games!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 700); // Made wider to accommodate spinner
         setLocationRelativeTo(null);
         
         // create main panel
@@ -48,10 +49,12 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(new JLabel("| Inventory: Type 'inventory' to view items"));
         
-        // SpinnerPanel spinner = new SpinnerPanel("src/images/spinnerImage.png"); // uploaded the image for our spiner
-
-        SpinnerPanel spinner = game.getSpinnerPanel();
-
+        // Create your spinner panel
+        spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
+        
+        // Create a panel to hold both the game output and spinner
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        
         // create output area
         outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -67,6 +70,23 @@ public class AdventureGUI extends JFrame implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Game Output"));
         
+        // Add the game output to the center
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        // Create a panel for the spinner
+        JPanel spinnerContainer = new JPanel(new BorderLayout());
+        spinnerContainer.setBorder(BorderFactory.createTitledBorder("Game Spinner"));
+        spinnerContainer.add(spinnerPanel, BorderLayout.CENTER);
+        
+        // Add instruction label
+        JLabel instructionLabel = new JLabel("<html><center>Type 'clockwise' or<br>'counterclockwise'<br>to rotate the spinner</center></html>");
+        instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 10));
+        spinnerContainer.add(instructionLabel, BorderLayout.SOUTH);
+        
+        // Add the spinner panel to the right side
+        centerPanel.add(spinnerContainer, BorderLayout.EAST);
+        
         // create input panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
         inputPanel.setBorder(BorderFactory.createTitledBorder("Command Input"));
@@ -74,7 +94,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         inputField = new JTextField();
         inputField.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         
-        // chat gpt helped with this review what it does
+        // Add key listener for Enter key
         inputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -93,7 +113,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         
         // add components to main panel
         mainPanel.add(statusPanel, BorderLayout.NORTH);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
         
         // add main panel to frame
@@ -104,29 +124,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
         
         setVisible(true);
     }
-
-    //     frame.add(inputPanel, BorderLayout.SOUTH);
-
-    //     frame.setVisible(true); 
-    //     printText("Welcome to the 75th Annual Hunger Games.");
-    //     int x = (int)(Math.random()*8)+5; // chooses a random number between 5-12 --> reps. district for the player to be from
-    //     int y = (int)(Math.random()*2)+1; // choose a random number between 1-2 --> reps. district for the gender 
-    //     // chooses the gender
-    //     String gender = "";
-    //         if (y==1) {
-    //             gender = "female"; 
-    //         } else {
-    //             gender = "male";
-    //         }
-    //     // prints start menu
-    //     printText ("You have been reaped as the " + gender + " tribute from District " + x); // prints the gender and the district
-    //     printText ("Your goal is to complete the challenges and stay alive. You have "  + game.getPlayer().getLives() + " lives"); // prints the number of lives they have
-    //     printText ("May the odds be ever in your favour!");
-    //     printText(game.getCurrentRoom().getLongDescription()); // prints the description of the room they're at
-    //     printChallengePrompt(game.getCurrentRoom().getChallenge()); // prints the challenge of the current room 
-
-    //     updateRoomDisplay(); // updates the room display based on the things we added from the start menu
-    // }
     
     private void displayMessage(String message) {
         outputArea.append(message + "\n\n");
@@ -155,8 +152,21 @@ public class AdventureGUI extends JFrame implements ActionListener {
         String input = inputField.getText().trim();
         if (!input.isEmpty()) {
             displayMessage("> " + input);
-            String response = game.processCommand(input);
-            displayMessage(response);
+            
+            // Check for spinner commands first
+            String lowerInput = input.toLowerCase();
+            if (lowerInput.equals("clockwise")) {
+                spinnerPanel.rotateClockwise();
+                displayMessage("You spin the wheel clockwise. The wheel rotates 30 degrees.");
+            } else if (lowerInput.equals("counterclockwise")) {
+                spinnerPanel.rotateCounterclockwise();
+                displayMessage("You spin the wheel counterclockwise. The wheel rotates 30 degrees.");
+            } else {
+                // Process other game commands
+                String response = game.processCommand(input);
+                displayMessage(response);
+            }
+            
             updateStatusLabels();
             inputField.setText("");
         }
@@ -169,4 +179,5 @@ public class AdventureGUI extends JFrame implements ActionListener {
             processInput();
         }
     }
+    
 }

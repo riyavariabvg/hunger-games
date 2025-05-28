@@ -174,6 +174,8 @@ public class Game {
         }
         
         player.setCurrentRoom(nextRoomId);
+        spinnerPanel.rotateClockwise();
+
         currentChallenge = null; // Clear current challenge when moving
         
         return "You move " + direction + ".\n\n" + getCurrentRoomDescription();
@@ -312,3 +314,5 @@ public class Game {
         return challenges;
     }
 }
+
+
