@@ -48,6 +48,10 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(new JLabel("| Inventory: Type 'inventory' to view items"));
         
+        // SpinnerPanel spinner = new SpinnerPanel("src/images/spinnerImage.png"); // uploaded the image for our spiner
+
+        SpinnerPanel spinner = game.getSpinnerPanel();
+
         // create output area
         outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -100,6 +104,29 @@ public class AdventureGUI extends JFrame implements ActionListener {
         
         setVisible(true);
     }
+
+    //     frame.add(inputPanel, BorderLayout.SOUTH);
+
+    //     frame.setVisible(true); 
+    //     printText("Welcome to the 75th Annual Hunger Games.");
+    //     int x = (int)(Math.random()*8)+5; // chooses a random number between 5-12 --> reps. district for the player to be from
+    //     int y = (int)(Math.random()*2)+1; // choose a random number between 1-2 --> reps. district for the gender 
+    //     // chooses the gender
+    //     String gender = "";
+    //         if (y==1) {
+    //             gender = "female"; 
+    //         } else {
+    //             gender = "male";
+    //         }
+    //     // prints start menu
+    //     printText ("You have been reaped as the " + gender + " tribute from District " + x); // prints the gender and the district
+    //     printText ("Your goal is to complete the challenges and stay alive. You have "  + game.getPlayer().getLives() + " lives"); // prints the number of lives they have
+    //     printText ("May the odds be ever in your favour!");
+    //     printText(game.getCurrentRoom().getLongDescription()); // prints the description of the room they're at
+    //     printChallengePrompt(game.getCurrentRoom().getChallenge()); // prints the challenge of the current room 
+
+    //     updateRoomDisplay(); // updates the room display based on the things we added from the start menu
+    // }
     
     private void displayMessage(String message) {
         outputArea.append(message + "\n\n");

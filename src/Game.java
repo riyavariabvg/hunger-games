@@ -9,11 +9,13 @@ public class Game {
     private Map<String, List<Item>> sectionInventories;
     private Challenge currentChallenge;
     private Random random;
-    
+    private SpinnerPanel spinnerPanel;
+
     public Game() {
         this.player = new Player();
         this.random = new Random();
         loadGameData();
+        spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
     }
     
     private void loadGameData() {
@@ -291,6 +293,13 @@ public class Game {
                "WARNING: If your health reaches 0, you will die and need to restart!";
     }
     
+    //     return CommandParser.parse(input, player, rooms, spinnerPanel);
+    // }
+
+    public SpinnerPanel getSpinnerPanel() {
+    return spinnerPanel;
+}
+
     public Player getPlayer() {
         return player;
     }
