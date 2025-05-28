@@ -2,58 +2,94 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private String currentRoomId;
+    private int health;
     private List<Item> inventory;
-    private int lives;
-
-    public Player(String startingRoomId) {
-        this.currentRoomId = startingRoomId;
+    private String currentRoom;
+    private int challengesCompleted;
+    
+    public Player() {
+        this.health = 100;
         this.inventory = new ArrayList<>();
-        this.lives = 3;
+        this.currentRoom = "Middle";
+        this.challengesCompleted = 0;
     }
-
-    public String getCurrentRoomId() {
-        return currentRoomId;
+    
+    // Health methods
+    public int getHealth() {
+        return health;
     }
-
-    public void setCurrentRoomId(String roomId) {
-        this.currentRoomId = roomId;
+    
+    public void changeHealth(int amount) {
+        health += amount;
+        if (health < 0) health = 0;
+        if (health > 100) health = 100;
     }
-
+    
+    // Inventory methods
+    public List<Item> getInventory() {
+        return new ArrayList<>(inventory);
+    }
+    
     public void addItem(Item item) {
         inventory.add(item);
     }
-
-    public boolean hasItem(String itemName) {
-        return inventory.stream().anyMatch(i -> i.getName().equalsIgnoreCase(itemName));
-    }
-
-    public void removeItem(Item item) {
-        inventory.remove(item);
-    }
-
-    public List<Item> getInventory() {
-        return inventory;
-    }
-
-    public void clearInventory() {
-        inventory.clear();
-    }
-
-    public int getLives() {
-        return lives;
+    
+    public boolean removeItem(String itemName) {
+        return inventory.removeIf(item -> 
+            item.getName().equalsIgnoreCase(itemName) || 
+            item.getId().equalsIgnoreCase(itemName));
     }
     
-    public void displayInventory() {
-        if (inventory.isEmpty()) {
-            System.out.println("Your inventory is empty.");
-        } else {
-            System.out.println("You are carrying:");
-            for (Item item : inventory) {
-                System.out.println("- " + item.getName() + ": " + item.getDescription());
-            }
-        }
+    public boolean hasItem(String itemName) {
+        return inventory.stream().anyMatch(item -> 
+            item.getName().equalsIgnoreCase(itemName) || 
+            item.getId().equalsIgnoreCase(itemName));
     }
-   
-
+    
+    public Item getItem(String itemName) {
+        return inventory.stream()
+            .filter(item -> item.getName().equalsIgnoreCase(itemName) || 
+                           item.getId().equalsIgnoreCase(itemName))
+            .findFirst()
+            .orElse(null);
+    }
+    
+    // Room methods
+    public String getCurrentRoom() {
+        return currentRoom;
+    }
+    
+    public void setCurrentRoom(String room) {
+        this.currentRoom = room;
+        this.challengesCompleted = 0; // Reset challenges when entering new room
+    }
+    
+    // Challenge methods
+    public int getChallengesCompleted() {
+        return challengesCompleted;
+    }
+    
+    public void incrementChallengesCompleted() {
+        challengesCompleted++;
+    }
+    
+    public boolean canMoveToNextRoom() {
+        return challengesCompleted >= 3; // Need to complete 3 challenges
+    }
+    
+    public String getInventoryString() {
+        if (inventory.isEmpty()) {
+            return "Your inventory is empty.\nYou are not carrying any items.";
+        }
+        
+        StringBuilder sb = new StringBuilder("=== INVENTORY ===\n");
+        sb.append("Items you are carrying:\n");
+        for (int i = 0; i < inventory.size(); i++) {
+            Item item = inventory.get(i);
+            sb.append((i + 1)).append(". ").append(item.getName())
+              .append(" - ").append(item.getDescription()).append("\n");
+        }
+        sb.append("Total items: ").append(inventory.size());
+        return sb.toString();
+    }
 }
