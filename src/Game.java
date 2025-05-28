@@ -266,14 +266,28 @@ public class Game {
     }
     
     public String getStartMessage() {
-        return "Welcome to the Adventure Game!\n" +
+        int x = (int)(Math.random()*8)+5; // chooses a random number between 5-12 --> reps. district for the player to be from
+        int y = (int)(Math.random()*2)+1; // choose a random number between 1-2 --> reps. district for the gender 
+
+        // chooses the gender
+        String gender = "";
+            if (y==1) {
+                gender = "female"; 
+            } else {
+                gender = "male";
+            }
+
+        return "You have been reaped as the " + gender + " tribute from district " + x + "\n" +
+                "May the odds be ever in your favor. \n" +
                "You find yourself in the middle of your journey...\n" +
                "Health: " + player.getHealth() + "/100\n" +
                "Type 'help' for available commands.\n\n" +
                getCurrentRoomDescription() + "\n\n" +
                "You notice some items around. Pick one up to begin facing challenges!";
     }
-    
+
+
+
     public void restart() {
         this.player = new Player();
         this.currentChallenge = null;

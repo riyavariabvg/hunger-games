@@ -1,14 +1,24 @@
 {
   "Middle": {
-    "description": "You stand at the center of the arena. The air is tense, and all sections surround you.",
+    "description": "You stand at the center of the arena. The air is tense, and all sections surround you. \n There is a large cornucopia nearby, full of useful supplies",
     "exits": {
       "clockwise": "Section1"
     },
     "items": [
       {
-        "id": "central_rock",
-        "name": "Central Rock",
-        "description": "A large rock with strange markings, maybe useful."
+        "id": "medicine_vial",
+        "name": "Medicine Vial",
+        "description": "A plastic container filled with medicine"
+      },
+        {
+        "id": "bow_and_arrow",
+        "name": "Bow and Arrow",
+        "description": "A wooden weapon, maybe helpful."
+      }, 
+      {
+        "id": "sword",
+        "name": "Sword",
+        "description": "A shiny, silver sword."
       }
     ]
   },
