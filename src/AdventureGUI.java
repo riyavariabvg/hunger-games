@@ -181,10 +181,10 @@ public class AdventureGUI extends JFrame implements ActionListener {
             String lowerInput = input.toLowerCase();
             if (lowerInput.equals("clockwise")) {
                 spinnerPanel.rotateClockwise();
-                displayMessage("You spin the wheel clockwise. The wheel rotates 30 degrees.");
+                displayMessage("You move clockwise to the next section of the arena.");
             } else if (lowerInput.equals("counterclockwise")) {
                 spinnerPanel.rotateCounterclockwise();
-                displayMessage("You spin the wheel counterclockwise. The wheel rotates 30 degrees.");
+                displayMessage("You move counter clockwise to the next section of the arena.");
             } else {
                 // Process other game commands
                 String response = game.processCommand(input);

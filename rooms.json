@@ -19,6 +19,21 @@
         "id": "sword",
         "name": "Sword",
         "description": "A shiny, silver sword."
+      },
+       {
+        "id": "repellent",
+        "name": "Tracker Jacker Repellent",
+        "description": "A strong-smelling substance to keep bugs away."
+      },
+       {
+        "id": "raft",
+        "name": "Raft",
+        "description": "A wooden raft to keep you afloat."
+      },
+       {
+        "id": "matches",
+        "name": "Matches",
+        "description": "Could be useful to keep you warm."
       }
     ]
   },

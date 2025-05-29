@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+     private static final int MAX_INVENTORY_SIZE = 5;
+
     private int health;
     private List<Item> inventory;
     private String currentRoom;
@@ -30,8 +32,17 @@ public class Player {
         return new ArrayList<>(inventory);
     }
     
-    public void addItem(Item item) {
+    // public void addItem(Item item) {
+    //     inventory.add(item);
+    // }
+
+     public boolean addItem(Item item) {
+        if (inventory.size() >= MAX_INVENTORY_SIZE) {
+            System.out.println("You're carrying too much! You can only carry 5 items.");
+            return false;
+        }
         inventory.add(item);
+        return true;
     }
     
     public boolean removeItem(String itemName) {
@@ -89,7 +100,11 @@ public class Player {
             sb.append((i + 1)).append(". ").append(item.getName())
               .append(" - ").append(item.getDescription()).append("\n");
         }
-        sb.append("Total items: ").append(inventory.size());
+        //sb.append("Total items: ").append(inventory.size());
+
+             sb.append("Total items: ").append(inventory.size())
+          .append(" / ").append(MAX_INVENTORY_SIZE);  
+
         return sb.toString();
     }
 }

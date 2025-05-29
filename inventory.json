@@ -15,16 +15,32 @@
         "id": "sword",
         "name": "Sword",
         "description": "A shiny, silver sword."
+      },
+      {
+        "id": "repellent",
+        "name": "Tracker Jacker Repellent",
+        "description": "A strong-smelling substance to keep bugs away."
+      },
+       {
+        "id": "raft",
+        "name": "Raft",
+        "description": "A wooden raft to keep you afloat."
+      },
+       {
+        "id": "matches",
+        "name": "Matches",
+        "description": "Could be useful to keep you warm."
       }
+
     ]
   },
 
   "Section1": {
     "items": [
       {
-        "id": "swamp_stick",
-        "name": "Swamp Stick",
-        "description": "A soggy stick that might be useful."
+        "id": "hammock",
+        "name": "Hammock",
+        "description": "A hammock that could be useful for the nights."
       },
       {
         "id": "muddy_boot",
@@ -171,11 +187,6 @@
 
   "Section11": {
     "items": [
-      {
-        "id": "repellent",
-        "name": "Tracker Jacker Repellent",
-        "description": "A strong-smelling substance to keep bugs away."
-      },
       {
         "id": "sting_salve",
         "name": "Sting Salve",
