@@ -167,27 +167,36 @@ public class Game {
                     "Challenges completed: " + player.getChallengesCompleted() + "/3";
         }
 
+
         Room currentRoom = rooms.get(player.getCurrentRoom());
         if (currentRoom == null) {
             return "You are not in a valid room.";
         }
 
         String nextRoomId = currentRoom.getExit(direction);
-        if (nextRoomId == null) {
+        if (nextRoomId == null || !rooms.containsKey(nextRoomId)) {
             return "You can't go " + direction + " from here. " + currentRoom.getExitsString();
         }
 
-        Room nextRoom = rooms.get(nextRoomId);
-        if (nextRoom == null) {
-            return "The " + direction + " exit leads nowhere.";
+        // Move the player
+        player.move(direction, rooms);
+
+        // Rotate spinner in correct direction
+        if (direction.equalsIgnoreCase("clockwise")) {
+            spinnerPanel.rotateClockwise();
+        } else if (direction.equalsIgnoreCase("counterclockwise")) {
+            spinnerPanel.rotateCounterclockwise(); // <-- assuming this method exists
         }
 
-        player.setCurrentRoom(nextRoomId);
-        spinnerPanel.rotateClockwise();
-        // FIX SPINNER STUFF HERE
         currentChallenge = null; // Clear current challenge when moving
 
         return "You move " + direction + ".\n\n" + getCurrentRoomDescription();
+
+        //
+
+        // currentChallenge = null; // Clear current challenge when moving
+
+        // return "You move " + direction + ".\n\n" + getCurrentRoomDescription();
     }
 
     private String tryProcessChallengeCommand(String command) {

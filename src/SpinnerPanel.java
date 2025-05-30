@@ -64,5 +64,6 @@ protected void paintComponent(Graphics g) {
     public void rotateCounterclockwise() {
         angle -= Math.toRadians(30);
         repaint();
+        
     }
 }
