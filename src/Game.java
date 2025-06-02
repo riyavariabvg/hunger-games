@@ -10,7 +10,7 @@ public class Game {
     private List<Challenge> challenges;
     private Map<String, List<Item>> sectionInventories;
     private Challenge currentChallenge;
-    private Random random;
+   private Random random;
     private SpinnerPanel spinnerPanel;
 
     public Game() {
