@@ -21,7 +21,10 @@ public class AdventureGUI extends JFrame implements ActionListener {
     // private JLabel imageLabel = new JLabel(icon);
 
     public AdventureGUI() {
-        game = new Game();
+        // Create spinner panel first
+        spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
+        // Pass spinner panel to game
+        game = new Game(spinnerPanel);
         initializeGUI();
         displayMessage(game.getStartMessage());
         updateStatusLabels();
@@ -52,9 +55,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(challengesLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(new JLabel("| Inventory: Type 'inventory' to view items"));
-
-        // Create your spinner panel
-        spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
 
         // Create a panel to hold both the game output and spinner
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -148,7 +148,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private void updateStatusLabels() {
         Player player = game.getPlayer();
         healthLabel.setText("Health: " + player.getHealth() + "/100");
-        challengesLabel.setText("Challenges: " + player.getRoomChallengesCompleted() + "/3");
+        challengesLabel.setText("Challenges: " + player.getChallengesCompleted() + "/3");
 
         // change health label color based on health level
         if (player.getHealth() <= 0) {
@@ -181,5 +181,4 @@ public class AdventureGUI extends JFrame implements ActionListener {
             processInput();
         }
     }
-
 }

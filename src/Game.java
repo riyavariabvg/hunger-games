@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class Game {
@@ -12,7 +12,6 @@ public class Game {
     private Challenge currentChallenge;
     private Random random;
     private SpinnerPanel spinnerPanel;
-    private boolean gameWon = false;
 
     // Constructor that accepts a SpinnerPanel from the GUI
     public Game(SpinnerPanel spinnerPanel) {
@@ -44,15 +43,6 @@ public class Game {
     }
 
     public String processCommand(String input) {
-        // Check if player has won
-        if (gameWon) {
-            if (input.trim().equalsIgnoreCase("restart")) {
-                restart();
-                return "Game restarted!\n\n" + getStartMessage();
-            }
-            return getWinMessage() + "\n\nType 'restart' to play again!";
-        }
-
         // Check if player is dead
         if (player.getHealth() <= 0) {
             return "GAME OVER! Your health has reached 0. You have died in the adventure.\nType 'restart' to begin again.";
@@ -77,8 +67,7 @@ public class Game {
         // Handle health/status command
         if (CommandParser.isHealthCommand(action)) {
             return "Health: " + player.getHealth() + "/100\n" +
-                    "Challenges completed in this room: " + player.getRoomChallengesCompleted() + "/3\n" +
-                    "Total challenges completed: " + player.getTotalChallengesCompleted() + "/" + getTotalChallengesInGame() + "\n" +
+                    "Challenges completed in this room: " + player.getChallengesCompleted() + "/3\n" +
                     player.getInventoryString();
         }
 
@@ -152,8 +141,8 @@ public class Game {
         String result = "You take the " + item.getName() + ".";
 
         // Check if we should start challenges after taking an item
-        if (player.getRoomChallengesCompleted() == 0 && hasRoomChallenges()) {
-            Challenge nextChallenge = getNextChallengeForRoom();
+        if (player.getChallengesCompleted() == 0 && !challenges.isEmpty()) {
+            Challenge nextChallenge = getNextChallenge();
             if (nextChallenge != null) {
                 currentChallenge = nextChallenge;
                 result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
@@ -187,7 +176,7 @@ public class Game {
     private String handleMovementCommand(String direction) {
         if (!player.canMoveToNextRoom()) {
             return "You need to complete all challenges in this room before you can move. " +
-                    "Challenges completed: " + player.getRoomChallengesCompleted() + "/3";
+                    "Challenges completed: " + player.getChallengesCompleted() + "/3";
         }
 
         Room currentRoom = rooms.get(player.getCurrentRoom());
@@ -218,13 +207,13 @@ public class Game {
     }
 
     private String tryProcessChallengeCommand(String command) {
-        // Only allow challenge commands if we haven't completed all challenges in this room
-        if (player.getRoomChallengesCompleted() >= 3) {
+        // Only allow challenge commands if we haven't completed all challenges
+        if (player.getChallengesCompleted() >= 3) {
             return null;
         }
 
-        // Get the next challenge for this specific room
-        Challenge nextChallenge = getNextChallengeForRoom();
+        // Get the next challenge
+        Challenge nextChallenge = getNextChallenge();
         if (nextChallenge == null) {
             return null;
         }
@@ -239,54 +228,34 @@ public class Game {
     }
 
     private String handleChallengeOption(Challenge.Option option) {
-        String result = option.getResult();
-        int healthChange = option.getHealthChange();
-        
-        // Check if this challenge requires an inventory item
-        String requiredItem = getRequiredItemForChallenge(currentChallenge);
-        if (requiredItem != null && !player.hasItem(requiredItem)) {
-            // Player doesn't have required item, lose extra health
-            healthChange -= 15;
-            result += "\n\nYou don't have the required item (" + requiredItem + ") and suffer additional damage!";
-        } else if (requiredItem != null && player.hasItem(requiredItem)) {
-            // Player has required item, bonus health
-            healthChange += 5;
-            result += "\n\nYou use your " + requiredItem + " effectively and gain a bonus!";
-        }
-
         // Apply health change
-        player.changeHealth(healthChange);
+        player.changeHealth(option.getHealthChange());
 
         // Check if player died
         if (player.getHealth() <= 0) {
-            return result + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
+            return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
         }
 
-        // Increment challenges completed for this room and total
-        player.incrementRoomChallengesCompleted();
-        player.incrementTotalChallengesCompleted();
+        // Increment challenges completed
+        player.incrementChallengesCompleted();
 
-        if (healthChange != 0) {
-            String healthChangeStr = healthChange > 0 ? "+" + healthChange : String.valueOf(healthChange);
-            result += " (Health " + healthChangeStr + ")";
+        String result = option.getResult();
+
+        if (option.getHealthChange() != 0) {
+            String healthChange = option.getHealthChange() > 0 ? "+" + option.getHealthChange()
+                    : String.valueOf(option.getHealthChange());
+            result += " (Health " + healthChange + ")";
         }
 
         result += "\nHealth: " + player.getHealth() + "/100";
-        result += "\nChallenges completed: " + player.getRoomChallengesCompleted() + "/3";
-        result += "\nTotal challenges completed: " + player.getTotalChallengesCompleted() + "/" + getTotalChallengesInGame();
+        result += "\nChallenges completed: " + player.getChallengesCompleted() + "/3";
 
         // Clear current challenge
         currentChallenge = null;
 
-        // Check for win condition FIRST
-        if (checkWinCondition()) {
-            gameWon = true;
-            return result + "\n\n" + getWinMessage();
-        }
-
-        // Check if there are more challenges in this room
-        if (player.getRoomChallengesCompleted() < 3) {
-            Challenge nextChallenge = getNextChallengeForRoom();
+        // Check if there are more challenges
+        if (player.getChallengesCompleted() < 3) {
+            Challenge nextChallenge = getNextChallenge();
             if (nextChallenge != null) {
                 currentChallenge = nextChallenge;
                 result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
@@ -298,83 +267,13 @@ public class Game {
         return result;
     }
 
-    private Challenge getNextChallengeForRoom() {
-        String currentRoom = player.getCurrentRoom();
-        int challengesCompleted = player.getRoomChallengesCompleted();
-        
-        // Get challenges specific to this room
-        List<Challenge> roomChallenges = getRoomChallenges(currentRoom);
-        
-        if (roomChallenges.isEmpty() || challengesCompleted >= roomChallenges.size()) {
+    private Challenge getNextChallenge() {
+        if (challenges.isEmpty() || player.getChallengesCompleted() >= challenges.size()) {
             return null;
         }
 
-        return roomChallenges.get(challengesCompleted);
-    }
-
-    private List<Challenge> getRoomChallenges(String roomId) {
-        List<Challenge> roomChallenges = new ArrayList<>();
-        
-        // Filter challenges by room ID
-        for (Challenge challenge : challenges) {
-            if (challenge.getId().startsWith(roomId + "_")) {
-                roomChallenges.add(challenge);
-            }
-        }
-        
-        return roomChallenges;
-    }
-
-    private boolean hasRoomChallenges() {
-        return !getRoomChallenges(player.getCurrentRoom()).isEmpty();
-    }
-
-    private String getRequiredItemForChallenge(Challenge challenge) {
-        // Define which challenges require specific items
-        // This could be moved to JSON configuration later
-        String challengeId = challenge.getId();
-        
-        if (challengeId.contains("Section1_A") || challengeId.contains("Section9_A")) {
-            return "sword"; // Wild boar challenges
-        } else if (challengeId.contains("Section2_A") || challengeId.contains("Section10_A")) {
-            return "raft"; // River challenges
-        } else if (challengeId.contains("Section7_A")) {
-            return "repellent"; // Snake challenge
-        } else if (challengeId.contains("Section6_A")) {
-            return "matches"; // Earthquake challenge (for signaling)
-        } else if (challengeId.contains("Section5_A")) {
-            return "bee_smoke"; // Bee swarm challenge
-        }
-        
-        return null; // No required item
-    }
-
-    // WIN CONDITION METHODS
-    private boolean checkWinCondition() {
-        int totalChallenges = getTotalChallengesInGame();
-        return player.getTotalChallengesCompleted() >= totalChallenges;
-    }
-
-    private int getTotalChallengesInGame() {
-        // Calculate total number of challenges across all rooms
-        // Assuming each room has 3 challenges
-        return rooms.size() * 3;
-    }
-
-    private String getWinMessage() {
-        return "🎉 CONGRATULATIONS! YOU HAVE WON THE HUNGER GAMES! 🎉\n\n" +
-               "You have successfully completed all challenges in all sections of the arena!\n" +
-               "You have proven yourself as the ultimate tribute and survived the deadly competition.\n\n" +
-               "Final Stats:\n" +
-               "- Health: " + player.getHealth() + "/100\n" +
-               "- Total Challenges Completed: " + player.getTotalChallengesCompleted() + "/" + getTotalChallengesInGame() + "\n" +
-               "- Items Collected: " + player.getInventory().size() + "\n\n" +
-               "You are the victor of the Hunger Games!\n" +
-               "May the odds have been ever in your favor!";
-    }
-
-    public boolean isGameWon() {
-        return gameWon;
+        // For now, return challenges in order. You could randomize this if desired.
+        return challenges.get(player.getChallengesCompleted());
     }
 
     public String getCurrentRoomDescription() {
@@ -392,7 +291,8 @@ public class Game {
     }
 
     public String getStartMessage() {
-        int x = (int) (Math.random() * 8) + 5; // chooses a random number between 5-12 --> reps. district for the player to be from
+        int x = (int) (Math.random() * 8) + 5; // chooses a random number between 5-12 --> reps. district for the player
+                                               // to be from
         int y = (int) (Math.random() * 2) + 1; // choose a random number between 1-2 --> reps. district for the gender
 
         // chooses the gender
@@ -407,7 +307,6 @@ public class Game {
                 "May the odds be ever in your favor. \n" +
                 "You find yourself in the middle of your journey...\n" +
                 "Health: " + player.getHealth() + "/100\n" +
-                "Total Challenges to Complete: " + getTotalChallengesInGame() + "\n" +
                 "Type 'help' for available commands.\n\n" +
                 getCurrentRoomDescription() + "\n\n" +
                 "You notice some items around. Pick one up to begin facing challenges!";
@@ -416,7 +315,6 @@ public class Game {
     public void restart() {
         this.player = new Player();
         this.currentChallenge = null;
-        this.gameWon = false;
     }
 
     private String getHelpText() {
@@ -426,14 +324,12 @@ public class Game {
                 "- take <item>: Take an item from the room\n" +
                 "- drop <item>: Drop an item from your inventory\n" +
                 "- inventory (or inv): Show your inventory and items you're carrying\n" +
-                "- health: Show your health, progress, and status\n" +
+                "- health: Show your health and status\n" +
                 "- clockwise: Move clockwise (when available)\n" +
                 "- counterclockwise: Move counterclockwise (when available)\n" +
-                "- restart: Restart the game\n" +
+                "- restart: Restart the game if you die\n" +
                 "\nChallenge commands will be shown when challenges appear.\n" +
                 "You must complete 3 challenges in each room before you can move to the next room.\n" +
-                "Complete ALL challenges in ALL rooms to win the Hunger Games!\n" +
-                "Some challenges require specific inventory items - collect items to succeed!\n" +
                 "WARNING: If your health reaches 0, you will die and need to restart!";
     }
 
