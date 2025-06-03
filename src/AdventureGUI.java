@@ -148,7 +148,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private void updateStatusLabels() {
         Player player = game.getPlayer();
         healthLabel.setText("Health: " + player.getHealth() + "/100");
-        challengesLabel.setText("Challenges: " + player.getChallengesCompleted() + "/3");
+        challengesLabel.setText("Challenges: " + player.getRoomChallengesCompleted() + "/3");
 
         // change health label color based on health level
         if (player.getHealth() <= 0) {
@@ -167,21 +167,8 @@ public class AdventureGUI extends JFrame implements ActionListener {
         String input = inputField.getText().trim();
         if (!input.isEmpty()) {
             displayMessage("> " + input);
-
-            // Check for spinner commands first
-            String lowerInput = input.toLowerCase();
-            if (lowerInput.equals("clockwise")) {
-                spinnerPanel.rotateClockwise();
-                displayMessage("You move clockwise to the next section of the arena.");
-            } else if (lowerInput.equals("counterclockwise")) {
-                spinnerPanel.rotateCounterclockwise();
-                displayMessage("You move counter clockwise to the next section of the arena.");
-            } else {
-                // Process other game commands
-                String response = game.processCommand(input);
-                displayMessage(response);
-            }
-
+            String response = game.processCommand(input);
+            displayMessage(response);
             updateStatusLabels();
             inputField.setText("");
         }
