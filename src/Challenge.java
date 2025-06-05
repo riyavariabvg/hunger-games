@@ -65,17 +65,29 @@ public class Challenge {
         private String command;
         private String result;
         private int healthChange;
+        private int medicineChange; // Add medicine change field
         private boolean success;
         private List<String> requiredInventory;
 
         public Option() {
             this.requiredInventory = new ArrayList<>();
+            this.medicineChange = 0; // Default to no medicine change
         }
 
         public Option(String command, String result, int healthChange, boolean success) {
             this.command = command;
             this.result = result;
             this.healthChange = healthChange;
+            this.success = success;
+            this.requiredInventory = new ArrayList<>();
+            this.medicineChange = 0; // Default to no medicine change
+        }
+
+        public Option(String command, String result, int healthChange, int medicineChange, boolean success) {
+            this.command = command;
+            this.result = result;
+            this.healthChange = healthChange;
+            this.medicineChange = medicineChange;
             this.success = success;
             this.requiredInventory = new ArrayList<>();
         }
@@ -105,6 +117,14 @@ public class Challenge {
             this.healthChange = healthChange;
         }
 
+        public int getMedicineChange() {
+            return medicineChange;
+        }
+
+        public void setMedicineChange(int medicineChange) {
+            this.medicineChange = medicineChange;
+        }
+
         public boolean isSuccess() {
             return success;
         }
@@ -120,6 +140,5 @@ public class Challenge {
         public void setRequiredInventory(List<String> requiredInventory) {
             this.requiredInventory = requiredInventory;
         }
-        
     }
 }

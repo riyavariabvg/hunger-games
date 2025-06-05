@@ -88,6 +88,10 @@ public class Player {
     public boolean canMoveToNextRoom() {
         return challengesCompleted >= 3; // Need to complete 3 challenges
     }
+    public void setChallengesCompleted(int count) {
+    this.challengesCompleted = count;
+}
+
 
     public String getInventoryString() {
         if (inventory.isEmpty()) {

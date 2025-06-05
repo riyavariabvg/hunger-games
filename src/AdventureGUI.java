@@ -12,6 +12,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JTextField inputField;
     private JButton submitButton;
     private JLabel healthLabel;
+    private JLabel medicineLabel; // Add medicine label
     private JLabel challengesLabel;
     private JScrollPane scrollPane;
     private SpinnerPanel spinnerPanel; // Add this field
@@ -47,10 +48,17 @@ public class AdventureGUI extends JFrame implements ActionListener {
 
         healthLabel = new JLabel("Health: 100/100");
         healthLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        
+        medicineLabel = new JLabel("Medicine: 0"); // Add medicine label
+        medicineLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        medicineLabel.setForeground(Color.BLUE); // Blue color for medicine
+        
         challengesLabel = new JLabel("Challenges: 0/3");
         challengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
         statusPanel.add(healthLabel);
+        statusPanel.add(Box.createHorizontalStrut(20));
+        statusPanel.add(medicineLabel); // Add medicine to status panel
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(challengesLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
@@ -148,7 +156,13 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private void updateStatusLabels() {
         Player player = game.getPlayer();
         healthLabel.setText("Health: " + player.getHealth() + "/100");
-        challengesLabel.setText("Challenges: " + player.getChallengesCompleted() + "/3");
+        
+        // Update medicine label
+        medicineLabel.setText("Medicine: " + game.getMedicineCount());
+        
+        // FIX: Get the current room's challenge count from the Game class instead of Player
+        int currentRoomChallenges = getCurrentRoomChallengesFromGame();
+        challengesLabel.setText("Challenges: " + currentRoomChallenges + "/3");
 
         // change health label color based on health level
         if (player.getHealth() <= 0) {
@@ -160,6 +174,35 @@ public class AdventureGUI extends JFrame implements ActionListener {
             healthLabel.setForeground(Color.ORANGE);
         } else {
             healthLabel.setForeground(Color.BLACK);
+        }
+        
+        // Color medicine label based on amount
+        int medicineCount = game.getMedicineCount();
+        if (medicineCount <= 0) {
+            medicineLabel.setForeground(Color.RED);
+        } else if (medicineCount <= 10) {
+            medicineLabel.setForeground(Color.ORANGE);
+        } else {
+            medicineLabel.setForeground(Color.BLUE);
+        }
+    }
+    
+    private int getCurrentRoomChallengesFromGame() {
+        // Access the Game's method to get current room challenge count
+        return game.getCurrentRoomChallengesCompleted();
+    }
+    
+    // Method to update medicine display (called from Game class)
+    public void updateMedicineDisplay(int medicineCount) {
+        medicineLabel.setText("Medicine: " + medicineCount);
+        
+        // Update color based on medicine count
+        if (medicineCount <= 0) {
+            medicineLabel.setForeground(Color.RED);
+        } else if (medicineCount <= 10) {
+            medicineLabel.setForeground(Color.ORANGE);
+        } else {
+            medicineLabel.setForeground(Color.BLUE);
         }
     }
 
@@ -183,50 +226,48 @@ public class AdventureGUI extends JFrame implements ActionListener {
     }
 
     public void gameOver() {
-    // Remove all components from the frame
-    getContentPane().removeAll();
-    repaint();
+        // Remove all components from the frame
+        getContentPane().removeAll();
+        repaint();
 
-    // Load and scale the Game Over image
-    ImageIcon gameOverIcon = new ImageIcon("src/images/GameOver.png");
-    Image image = gameOverIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-    gameOverIcon = new ImageIcon(image);
+        // Load and scale the Game Over image
+        ImageIcon gameOverIcon = new ImageIcon("src/images/GameOver.png");
+        Image image = gameOverIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        gameOverIcon = new ImageIcon(image);
 
-    // Create a label with the image
-    JLabel gameOverLabel = new JLabel(gameOverIcon);
-    gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    gameOverLabel.setVerticalAlignment(SwingConstants.CENTER);
+        // Create a label with the image
+        JLabel gameOverLabel = new JLabel(gameOverIcon);
+        gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gameOverLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-    // Add it to the frame
-    add(gameOverLabel);
+        // Add it to the frame
+        add(gameOverLabel);
 
-    // Refresh the frame
-    revalidate();
-    repaint();
+        // Refresh the frame
+        revalidate();
+        repaint();
+    }
+
+    public void victory() {
+        // Remove all components from the frame
+        getContentPane().removeAll();
+        repaint();
+
+        // Load and scale the Victory image
+        ImageIcon victoryIcon = new ImageIcon("src/images/Victory.png");
+        Image image = victoryIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        victoryIcon = new ImageIcon(image);
+
+        // Create a label with the image
+        JLabel victoryLabel = new JLabel(victoryIcon);
+        victoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        victoryLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+        // Add it to the frame
+        add(victoryLabel);
+
+        // Refresh the frame
+        revalidate();
+        repaint();
+    }
 }
-
-public void victory() {
-    // Remove all components from the frame
-    getContentPane().removeAll();
-    repaint();
-
-    // Load and scale the Victory image
-    ImageIcon victoryIcon = new ImageIcon("src/images/Victory.png");
-    Image image = victoryIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-    victoryIcon = new ImageIcon(image);
-
-    // Create a label with the image
-    JLabel victoryLabel = new JLabel(victoryIcon);
-    victoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    victoryLabel.setVerticalAlignment(SwingConstants.CENTER);
-
-    // Add it to the frame
-    add(victoryLabel);
-
-    // Refresh the frame
-    revalidate();
-    repaint();
-}
-
-}
-

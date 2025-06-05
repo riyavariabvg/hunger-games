@@ -6,9 +6,9 @@
     },
     "items": [
       {
-        "id": "medicine_vial",
-        "name": "Medicine Vial",
-        "description": "A plastic container filled with medicine"
+        "id": "medicine_pack",
+        "name": "Medicine Pack",
+        "description": "A plastic pack filled with medicine"
       },
       {
         "id": "bow_and_arrow",
