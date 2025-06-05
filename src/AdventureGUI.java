@@ -15,7 +15,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JLabel healthLabel;
     private JLabel medicineLabel;
     private JLabel challengesLabel;
-    private JLabel totalChallengesLabel; // Added for total challenges
+    private JLabel totalChallengesLabel;
     private JLabel sectionLabel;
     private JLabel restartLabel;
     private JScrollPane scrollPane;
@@ -39,13 +39,13 @@ public class AdventureGUI extends JFrame implements ActionListener {
         initializeGUI();
         displayMessage(game.getStartMessage());
         updateStatusLabels();
-        updateInventoryDisplay(); // Initialize inventory display
+        updateInventoryDisplay();
     }
 
     private void initializeGUI() {
         setTitle("Welcome to the Hunger Games!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1250, 700); // Made even wider to accommodate larger right panel
+        setSize(1250, 700);
         setLocationRelativeTo(null);
 
         // create main panel
@@ -67,10 +67,9 @@ public class AdventureGUI extends JFrame implements ActionListener {
         challengesLabel = new JLabel("Challenges: 0/3");
         challengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         
-        // Add total challenges label
-        totalChallengesLabel = new JLabel("Total Challenges Completed: 0/39");
+        totalChallengesLabel = new JLabel("Total: 0/39");
         totalChallengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
-        totalChallengesLabel.setForeground(new Color(128, 0, 128)); // Purple color
+        totalChallengesLabel.setForeground(new Color(128, 0, 128));
         
         sectionLabel = new JLabel("Section: 1");
         sectionLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
@@ -86,7 +85,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(challengesLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
-        statusPanel.add(totalChallengesLabel); // Add total challenges to status panel
+        statusPanel.add(totalChallengesLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(sectionLabel);
         statusPanel.add(Box.createHorizontalStrut(30));
@@ -94,7 +93,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
 
         // Create a panel to hold both the game output and right side panels
         centerPanel = new JPanel(new BorderLayout());
-        setupGameContent(); // Setup the normal game content
+        setupGameContent();
 
         // create input panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
@@ -162,11 +161,11 @@ public class AdventureGUI extends JFrame implements ActionListener {
 
         // Create right side panel to hold both spinner and inventory
         rightPanel = new JPanel(new BorderLayout(5, 5));
-        rightPanel.setPreferredSize(new Dimension(300, 0)); // Increased from 280 to 300
+        rightPanel.setPreferredSize(new Dimension(300, 0));
 
         // Add hunger games logo - make it smaller
         ImageIcon icon = new ImageIcon("src/images/HungerGamesLogo.png");
-        Image scaledImage = icon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH); // Reduced from 180x100
+        Image scaledImage = icon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         JLabel logoLabel = new JLabel(resizedIcon);
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -176,7 +175,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         spinnerContainer.setBorder(BorderFactory.createTitledBorder("Game Spinner"));
         
         // Add the spinner directly without size constraints
-        spinnerPanel.setPreferredSize(new Dimension(270, 270)); // Increased from 250 to 270
+        spinnerPanel.setPreferredSize(new Dimension(270, 270));
         
         // Add the logo above spinner in spinnerContainer
         spinnerContainer.add(logoLabel, BorderLayout.NORTH);
@@ -186,7 +185,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         JLabel instructionLabel = new JLabel(
                 "<html><center>Type 'clockwise' or<br>'counterclockwise'<br>to rotate the spinner</center></html>");
         instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 9)); // Smaller font
+        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 9));
         spinnerContainer.add(instructionLabel, BorderLayout.SOUTH);
 
         // Create inventory panel
@@ -202,10 +201,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Force complete refresh of the display
         centerPanel.revalidate();
         centerPanel.repaint();
-        
-        // Also refresh the parent container to ensure complete update
-        this.revalidate();
-        this.repaint();
     }
 
     private void createInventoryPanel() {
@@ -221,7 +216,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         
         // Add scroll pane for inventory list
         JScrollPane inventoryScrollPane = new JScrollPane(inventoryList);
-        inventoryScrollPane.setPreferredSize(new Dimension(250, 120)); // Reduced height slightly
+        inventoryScrollPane.setPreferredSize(new Dimension(250, 120));
         inventoryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
         inventoryPanel.add(inventoryScrollPane, BorderLayout.CENTER);
@@ -256,7 +251,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         if (items.size() >= 5) {
             countLabel.setForeground(Color.RED);
         } else if (items.size() >= 4) {
-            countLabel.setForeground(new Color(204, 102, 0)); // Darker orange
+            countLabel.setForeground(new Color(204, 102, 0));
         } else {
             countLabel.setForeground(Color.BLACK);
         }
@@ -281,19 +276,19 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Update total challenges label
         int totalCompleted = game.getTotalChallengesCompleted();
         int totalPossible = game.getTotalPossibleChallenges();
-        totalChallengesLabel.setText("Total Challenges Completed: " + totalCompleted + "/" + totalPossible);
+        totalChallengesLabel.setText("Total: " + totalCompleted + "/" + totalPossible);
         
         // Color code total challenges label based on completion
         if (totalCompleted == 0) {
-            totalChallengesLabel.setForeground(new Color(128, 0, 128)); // Purple
+            totalChallengesLabel.setForeground(new Color(128, 0, 128));
         } else if (totalCompleted < totalPossible / 3) {
-            totalChallengesLabel.setForeground(new Color(153, 51, 153)); // Lighter purple
+            totalChallengesLabel.setForeground(new Color(153, 51, 153));
         } else if (totalCompleted < 2 * (totalPossible / 3)) {
-            totalChallengesLabel.setForeground(new Color(178, 102, 178)); // Even lighter purple
+            totalChallengesLabel.setForeground(new Color(178, 102, 178));
         } else if (totalCompleted < totalPossible) {
-            totalChallengesLabel.setForeground(new Color(102, 0, 153)); // Deep purple
+            totalChallengesLabel.setForeground(new Color(102, 0, 153));
         } else {
-            totalChallengesLabel.setForeground(new Color(102, 0, 204)); // Bright purple for completion
+            totalChallengesLabel.setForeground(new Color(102, 0, 204));
         }
         
         // Update section label
@@ -306,7 +301,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         } else if (player.getHealth() <= 25) {
             healthLabel.setForeground(Color.RED);
         } else if (player.getHealth() <= 50) {
-            healthLabel.setForeground(new Color(204, 102, 0)); // Darker orange
+            healthLabel.setForeground(new Color(204, 102, 0));
         } else {
             healthLabel.setForeground(Color.BLACK);
         }
@@ -316,7 +311,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         if (medicineCount <= 0) {
             medicineLabel.setForeground(Color.RED);
         } else if (medicineCount <= 10) {
-            medicineLabel.setForeground(new Color(204, 102, 0)); // Darker orange
+            medicineLabel.setForeground(new Color(204, 102, 0));
         } else {
             medicineLabel.setForeground(Color.BLUE);
         }
@@ -329,8 +324,8 @@ public class AdventureGUI extends JFrame implements ActionListener {
         Player player = game.getPlayer();
         String currentRoomId = player.getCurrentRoom();
         
-        String sectionNumber = "0"; // Default to 0 for Middle
-        int totalSections = 12; // Fixed total of 12 sections
+        String sectionNumber = "0";
+        int totalSections = 12;
         
         if (currentRoomId != null) {
             if (currentRoomId.equals("Middle")) {
@@ -339,7 +334,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
                 try {
                     sectionNumber = currentRoomId.substring("Section".length());
                 } catch (StringIndexOutOfBoundsException e) {
-                    sectionNumber = "0"; // Fallback
+                    sectionNumber = "0";
                 }
             }
         }
@@ -350,58 +345,52 @@ public class AdventureGUI extends JFrame implements ActionListener {
         try {
             int currentSection = Integer.parseInt(sectionNumber);
             if (currentSection == 0) {
-                sectionLabel.setForeground(new Color(128, 128, 128)); // Gray for middle/starting area
+                sectionLabel.setForeground(new Color(128, 128, 128));
             } else if (currentSection == 1) {
-                sectionLabel.setForeground(new Color(0, 128, 0)); // Green for first section
+                sectionLabel.setForeground(new Color(0, 128, 0));
             } else if (currentSection >= totalSections) {
-                sectionLabel.setForeground(new Color(255, 215, 0)); // Gold for final section
+                sectionLabel.setForeground(new Color(255, 215, 0));
             } else {
-                sectionLabel.setForeground(new Color(0, 100, 200)); // Blue for middle sections
+                sectionLabel.setForeground(new Color(0, 100, 200));
             }
         } catch (NumberFormatException e) {
-            sectionLabel.setForeground(new Color(128, 128, 128)); // Default gray
+            sectionLabel.setForeground(new Color(128, 128, 128));
         }
     }
 
     private int getTotalSectionCount() {
-        // Return fixed value of 12 sections (plus the middle makes 13 total rooms)
         return 12;
     }
     
     private int getCurrentRoomChallengesFromGame() {
-        // Access the Game's method to get current room challenge count
         return game.getCurrentRoomChallengesCompleted();
     }
     
-    // Method to update medicine display (called from Game class)
     public void updateMedicineDisplay(int medicineCount) {
         medicineLabel.setText("Medicine: " + medicineCount);
         
-        // Update color based on medicine count
         if (medicineCount <= 0) {
             medicineLabel.setForeground(Color.RED);
         } else if (medicineCount <= 10) {
-            medicineLabel.setForeground(new Color(204, 102, 0)); // Darker orange
+            medicineLabel.setForeground(new Color(204, 102, 0));
         } else {
             medicineLabel.setForeground(Color.BLUE);
         }
     }
     
-    // Method to reset the GUI to normal game state (called when restarting)
+    // Fixed restart method
     public void resetToGameState() {
-        // First restart the game logic
-        game.restart();
-        
-        // Clear the center panel completely
-        centerPanel.removeAll();
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        
-        // Wait a moment for the UI to update, then setup the game content
-        SwingUtilities.invokeLater(() -> {
+        try {
+            // Completely recreate the Game object with the existing spinner panel
+            game = new Game(spinnerPanel, this);
+            
+            // Clear the center panel
+            centerPanel.removeAll();
+            
+            // Set up game content again
             setupGameContent();
             
-            // Clear and reset the output area
+            // Update the text area with the start message
             if (outputArea != null) {
                 outputArea.setText("");
                 displayMessage(game.getStartMessage());
@@ -409,12 +398,28 @@ public class AdventureGUI extends JFrame implements ActionListener {
             
             // Update all status displays
             updateStatusLabels();
-            updateInventoryDisplay();
             
-            // Clear input field and set focus
+            // Restore focus to input field
             inputField.setText("");
             inputField.requestFocus();
-        });
+            
+            // Force layout updates
+            centerPanel.revalidate();
+            centerPanel.repaint();
+            this.revalidate();
+            this.repaint();
+            
+        } catch (Exception e) {
+            // If there's an error during restart, show it and try a simpler approach
+            System.err.println("Error during restart: " + e.getMessage());
+            e.printStackTrace();
+            
+            // Fallback restart approach
+            game.restart();
+            outputArea.setText("");
+            displayMessage(game.getStartMessage());
+            updateStatusLabels();
+        }
     }
     
     private void processInput() {
@@ -422,18 +427,16 @@ public class AdventureGUI extends JFrame implements ActionListener {
         if (!input.isEmpty()) {
             displayMessage("> " + input);
             
-            // Check for restart command specifically
-            if (input.toLowerCase().equals("restart")) {
-                // Clear input field first
+            // Special handling for restart command
+            if (input.equalsIgnoreCase("restart")) {
                 inputField.setText("");
-                // Handle restart directly in GUI
                 resetToGameState();
                 return;
             }
             
             String response = game.processCommand(input);
             displayMessage(response);
-            updateStatusLabels(); // This will also update inventory display
+            updateStatusLabels();
             inputField.setText("");
         }
         inputField.requestFocus();
@@ -447,9 +450,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
     }
 
     public void gameOver() {
-        // Replace only the center content (game output and right panel) with the game over image
-        // Keep the status panel, input panel, and input functionality
-        
         // Remove the existing center content
         centerPanel.removeAll();
         
@@ -463,7 +463,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Get the size of the center panel for proper scaling
         Dimension centerSize = centerPanel.getSize();
         if (centerSize.width == 0 || centerSize.height == 0) {
-            // Fallback size if panel hasn't been sized yet
             centerSize = new Dimension(950, 500);
         }
         
@@ -488,9 +487,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
     }
 
     public void victory() {
-        // Replace only the center content (game output and right panel) with the victory image
-        // Keep the status panel, input panel, and input functionality
-        
         // Remove the existing center content
         centerPanel.removeAll();
         
@@ -504,7 +500,6 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Get the size of the center panel for proper scaling
         Dimension centerSize = centerPanel.getSize();
         if (centerSize.width == 0 || centerSize.height == 0) {
-            // Fallback size if panel hasn't been sized yet
             centerSize = new Dimension(950, 500);
         }
         
