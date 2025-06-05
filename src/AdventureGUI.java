@@ -67,7 +67,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         challengesLabel = new JLabel("Challenges: 0/3");
         challengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         
-        totalChallengesLabel = new JLabel("Total: 0/39");
+        totalChallengesLabel = new JLabel("Total Challenges Completed: 0/39");
         totalChallengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         totalChallengesLabel.setForeground(new Color(128, 0, 128));
         
@@ -276,7 +276,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Update total challenges label
         int totalCompleted = game.getTotalChallengesCompleted();
         int totalPossible = game.getTotalPossibleChallenges();
-        totalChallengesLabel.setText("Total: " + totalCompleted + "/" + totalPossible);
+        totalChallengesLabel.setText("Total Challenges Completed: " + totalCompleted + "/" + totalPossible);
         
         // Color code total challenges label based on completion
         if (totalCompleted == 0) {
