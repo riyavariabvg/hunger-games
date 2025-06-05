@@ -78,7 +78,7 @@ public class CommandParser {
     }
     public static boolean isIgnoreCommand(String command) {
         String cmd = command.toLowerCase().trim();
-        return cmd.equals("ignore") || cmd.startsWith("ignore ");
+        return cmd.equals("ignore") || cmd.equals("start") || cmd.startsWith("ignore ") || cmd.startsWith("start ");
     }
 
    
