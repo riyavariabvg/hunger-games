@@ -15,6 +15,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JLabel healthLabel;
     private JLabel medicineLabel; // Add medicine label
     private JLabel challengesLabel;
+    private JLabel sectionLabel; // Add section label
     private JLabel restartLabel; // Add restart instruction label
     private JScrollPane scrollPane;
     private SpinnerPanel spinnerPanel; // Add this field
@@ -68,6 +69,11 @@ public class AdventureGUI extends JFrame implements ActionListener {
         challengesLabel = new JLabel("Challenges: 0/3");
         challengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         
+        // Add section label
+        sectionLabel = new JLabel("Section: 1");
+        sectionLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        sectionLabel.setForeground(new Color(0, 128, 0)); // Green color for section
+        
         // Add restart instruction label
         restartLabel = new JLabel("Type 'restart' to restart");
         restartLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 11));
@@ -78,6 +84,8 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(medicineLabel); // Add medicine to status panel
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(challengesLabel);
+        statusPanel.add(Box.createHorizontalStrut(20));
+        statusPanel.add(sectionLabel); // Add section to status panel
         statusPanel.add(Box.createHorizontalStrut(30)); // Extra space before restart instruction
         statusPanel.add(restartLabel);
 
@@ -266,6 +274,9 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // FIX: Get the current room's challenge count from the Game class instead of Player
         int currentRoomChallenges = getCurrentRoomChallengesFromGame();
         challengesLabel.setText("Challenges: " + currentRoomChallenges + "/3");
+        
+        // Update section label
+        updateSectionLabel();
 
         // change health label color based on health level
         if (player.getHealth() <= 0) {
@@ -293,6 +304,48 @@ public class AdventureGUI extends JFrame implements ActionListener {
         updateInventoryDisplay();
     }
     
+    private void updateSectionLabel() {
+    Player player = game.getPlayer();
+    String currentRoomId = player.getCurrentRoom();
+    
+    String sectionNumber = "0"; // Default to 0 for Middle
+    int totalSections = 12; // Fixed total of 12 sections
+    
+    if (currentRoomId != null) {
+        if (currentRoomId.equals("Middle")) {
+            sectionNumber = "0";
+        } else if (currentRoomId.startsWith("Section")) {
+            try {
+                sectionNumber = currentRoomId.substring("Section".length());
+            } catch (StringIndexOutOfBoundsException e) {
+                sectionNumber = "0"; // Fallback
+            }
+        }
+    }
+    
+    sectionLabel.setText("Section: " + sectionNumber + "/" + totalSections);
+    
+    // Color coding based on progress
+    try {
+        int currentSection = Integer.parseInt(sectionNumber);
+        if (currentSection == 0) {
+            sectionLabel.setForeground(new Color(128, 128, 128)); // Gray for middle/starting area
+        } else if (currentSection == 1) {
+            sectionLabel.setForeground(new Color(0, 128, 0)); // Green for first section
+        } else if (currentSection >= totalSections) {
+            sectionLabel.setForeground(new Color(255, 215, 0)); // Gold for final section
+        } else {
+            sectionLabel.setForeground(new Color(0, 100, 200)); // Blue for middle sections
+        }
+    } catch (NumberFormatException e) {
+        sectionLabel.setForeground(new Color(128, 128, 128)); // Default gray
+    }
+}
+
+private int getTotalSectionCount() {
+    // Return fixed value of 12 sections (plus the middle makes 13 total rooms)
+    return 12;
+}
     private int getCurrentRoomChallengesFromGame() {
         // Access the Game's method to get current room challenge count
         return game.getCurrentRoomChallengesCompleted();

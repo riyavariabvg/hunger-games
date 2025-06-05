@@ -536,12 +536,12 @@ public class Game {
             gender = "male";
         }
 
-        return "You have been reaped as the " + gender + " tribute from district " + x + "\n" +
+        return "WELCOME TO THE 75th ANNUAL HUNGER GAMES!\n" +
+        "You have been reaped as the " + gender + " tribute from district " + x + "\n" +
                 
                 "To be crowned victor, your goal is to get through all sections of the arena without losing your health. \n" +
                 "You start with a Medicine Vial that can be used to restore health. Collect medicine throughout your journey!\n" +
                 "May the odds be ever in your favor. \n" + "\n" +
-                "You find yourself in the middle of your journey...\n" +
                 "Health: " + player.getHealth() + "/100\n" +
                 "Medicine: " + medicineCount + "\n" +
                 "Type 'help' for available commands.\n\n" +
