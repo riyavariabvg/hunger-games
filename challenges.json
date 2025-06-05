@@ -22,7 +22,7 @@
     "prompt": "You find a trapped rabbit in a snare.",
     "options": [
       {"command": "free rabbit", "result": "You free it but lose time.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "ignore rabbit", "result": "You keep moving forward.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
+      {"command": "leave rabbit alone", "result": "You keep moving forward.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
       {"command": "use rabbit for food", "result": "You get nourishment but feel guilty.", "healthChange": 10, "success": true, "requiredInventory": ["knife"]}
     ]
   },
@@ -97,7 +97,7 @@
     "prompt": "You find a strange healing herb.",
     "options": [
       {"command": "use herb", "result": "It heals your wounds.", "healthChange": 8, "success": true, "requiredInventory": ["herb_guide"]},
-      {"command": "ignore herb", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "leave herb alone", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "save herb", "result": "You keep it for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
     ]
   },
@@ -134,7 +134,7 @@
     "prompt": "You find edible mushrooms.",
     "options": [
       {"command": "eat mushrooms", "result": "They boost your health.", "healthChange": 7, "success": true, "requiredInventory": ["mushroom_guide"]},
-      {"command": "ignore mushrooms", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "leave mushrooms alone", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]}
     ]
   },
@@ -154,7 +154,7 @@
     "options": [
       {"command": "eat berries", "result": "Delicious and healthy.", "healthChange": 6, "success": true, "requiredInventory": ["berry_guide"]},
       {"command": "pick berries", "result": "You collect for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]},
-      {"command": "ignore berries", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []}
+      {"command": "leave berries alone", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
@@ -191,7 +191,7 @@
     "options": [
       {"command": "drink water", "result": "You feel refreshed.", "healthChange": 5, "success": true, "requiredInventory": []},
       {"command": "fill bottle", "result": "You store water for later.", "healthChange": 0, "success": true, "requiredInventory": ["water_bottle"]},
-      {"command": "ignore water", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": ["water_purifier"]}
+      {"command": "leave water", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": ["water_purifier"]}
     ]
   },
 
@@ -209,7 +209,7 @@
     "prompt": "You find an old map on the ground.",
     "options": [
       {"command": "use map", "result": "It helps you find a shortcut.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
-      {"command": "ignore map", "result": "You continue as before.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "leave map", "result": "You continue as before.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "keep map", "result": "You save it for later.", "healthChange": 0, "success": true, "requiredInventory": ["backpack"]}
     ]
   },
@@ -320,7 +320,7 @@
     "prompt": "You find a strange healing herb.",
     "options": [
       {"command": "use herb", "result": "It heals your wounds.", "healthChange": 8, "success": true, "requiredInventory": ["herb_guide"]},
-      {"command": "ignore herb", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "leave herb", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "save herb", "result": "You keep it for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
     ]
   },
@@ -357,7 +357,7 @@
     "prompt": "You find edible mushrooms.",
     "options": [
       {"command": "eat mushrooms", "result": "They boost your health.", "healthChange": 7, "success": true, "requiredInventory": ["mushroom_guide"]},
-      {"command": "ignore mushrooms", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "leave mushrooms", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]}
     ]
   }
