@@ -24,7 +24,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Create spinner panel first
         spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
         // Pass spinner panel to game
-        game = new Game(spinnerPanel);
+        game = new Game(spinnerPanel, this);
         initializeGUI();
         displayMessage(game.getStartMessage());
         updateStatusLabels();

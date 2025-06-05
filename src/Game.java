@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Game {
+    private AdventureGUI gui;
     private Player player;
     private Map<String, Room> rooms;
     private List<Challenge> challenges;
@@ -23,9 +24,10 @@ public class Game {
     private Map<String, List<Challenge>> roomChallenges;
 
     // Constructor that accepts a SpinnerPanel from the GUI
-    public Game(SpinnerPanel spinnerPanel) {
+    public Game(SpinnerPanel spinnerPanel, AdventureGUI gui) {
         this.player = new Player();
         this.random = new Random();
+        this.gui = gui;
         this.spinnerPanel = spinnerPanel;
         this.roomChallengeCompletions = new HashMap<>();
         this.roomChallenges = new HashMap<>();
@@ -84,6 +86,7 @@ public class Game {
     public String processCommand(String input) {
         // Check if player is dead
         if (player.getHealth() <= 0) {
+            gui.gameOver();
             return "GAME OVER! Your health has reached 0. You have died in the adventure.\nType 'restart' to begin again.";
         }
 
@@ -310,12 +313,29 @@ public class Game {
         return true;
     }
 
+    public void checkVictoryCondition() {
+    // Iterate over all rooms and check if their challenges are fully completed
+    for (String roomId : rooms.keySet()) {
+        List<Challenge> roomSpecificChallenges = roomChallenges.get(roomId);
+        int completed = roomChallengeCompletions.getOrDefault(roomId, 0);
+
+        // If any room has incomplete challenges, return early
+        if (roomSpecificChallenges == null || completed < roomSpecificChallenges.size()) {
+            return; // Not all challenges completed yet
+        }
+    }
+    
+    // If we get here, all rooms are fully completed
+    gui.victory();
+}
+
     private String handleChallengeOption(Challenge.Option option) {
         // Apply health change
         player.changeHealth(option.getHealthChange());
 
         // Check if player died
         if (player.getHealth() <= 0) {
+            gui.gameOver();
             return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
         }
 
@@ -323,6 +343,8 @@ public class Game {
         String currentRoomId = player.getCurrentRoom();
         int currentCompleted = roomChallengeCompletions.get(currentRoomId);
         roomChallengeCompletions.put(currentRoomId, currentCompleted + 1);
+
+          checkVictoryCondition();
 
         String result = option.getResult();
 
@@ -411,7 +433,9 @@ public class Game {
         }
 
         return "You have been reaped as the " + gender + " tribute from district " + x + "\n" +
-                "May the odds be ever in your favor. \n" +
+                
+                "To be crowned victor, your goal is to get through all sections of the arena without losing your health. \n" +
+                "May the odds be ever in your favor. \n" + "\n" +
                 "You find yourself in the middle of your journey...\n" +
                 "Health: " + player.getHealth() + "/100\n" +
                 "Type 'help' for available commands.\n\n" +

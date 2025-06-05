@@ -80,6 +80,8 @@ public class SpinnerPanel extends JPanel {
     public void rotateCounterclockwise() {
         angle -= Math.toRadians(30);
         repaint();
+          
+    }
         
     }
-}
+
