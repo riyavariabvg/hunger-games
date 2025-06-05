@@ -36,6 +36,7 @@ public class Game {
         initializeRoomChallenges();
         addMedicineVialToPlayer(); // Add medicine vial to starting inventory
     }
+    
 
     // Default constructor for backward compatibility
     public Game() {
@@ -53,6 +54,22 @@ public class Game {
         }
     }
     
+    public int getTotalChallengesCompleted() {
+    int total = 0;
+    for (Integer completed : roomChallengeCompletions.values()) {
+        total += completed;
+    }
+    return total;
+}
+
+// Get total possible challenges across all rooms
+public int getTotalPossibleChallenges() {
+    int total = 0;
+    for (List<Challenge> roomChallenge : roomChallenges.values()) {
+        total += roomChallenge.size();
+    }
+    return total;
+}
 
     private void addMedicineVialToPlayer() {
         // Create a medicine vial item and add it to player's inventory
@@ -234,7 +251,7 @@ public class Game {
 
     // Check if item gives medicine
     String result = "";
-    if (item.getId().contains("medicine") && !item.getId().equals("medicine_vial")) {
+    if ((item.getId().contains("medicine") || item.getId().contains("first"))&& !item.getId().equals("medicine_vial")) {
         // Handle medicine items
         int medicineGained = 0;
         if (item.getId().equals("medicine_pack")) {
