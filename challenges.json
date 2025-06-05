@@ -3,8 +3,8 @@
     "id": "Middle_A",
     "prompt": "Dark clouds gather—a storm is coming fast.",
     "options": [
-      {"command": "seek shelter", "result": "You stay dry under thick foliage.", "healthChange": 0, "success": true, "requiredInventory": ["raft"]},
-      {"command": "run through storm", "result": "You get soaked and cold.", "healthChange": -10, "success": false, "requiredInventory": ["boots"]},
+      {"command": "seek shelter", "result": "You stay dry under thick foliage.", "healthChange": -100, "success": true, "requiredInventory": ["raft"]},
+      {"command": "run through storm", "result": "You get soaked and cold.", "healthChange": -100, "success": false, "requiredInventory": ["boots"]},
       {"command": "build shelter", "result": "You build a small shelter and stay safe.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "knife"]}
     ]
   },

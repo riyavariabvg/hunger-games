@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class AdventureGUI extends JFrame implements ActionListener {
     private Game game;
@@ -17,6 +18,11 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JScrollPane scrollPane;
     private SpinnerPanel spinnerPanel; // Add this field
     private ImageIcon icon;
+    
+    // Inventory panel components
+    private JPanel inventoryPanel;
+    private JList<String> inventoryList;
+    private DefaultListModel<String> inventoryListModel;
 
     // = new ImageIcon("src/images/HungerGamesLogo.png");
     // private JLabel imageLabel = new JLabel(icon);
@@ -29,12 +35,13 @@ public class AdventureGUI extends JFrame implements ActionListener {
         initializeGUI();
         displayMessage(game.getStartMessage());
         updateStatusLabels();
+        updateInventoryDisplay(); // Initialize inventory display
     }
 
     private void initializeGUI() {
         setTitle("Welcome to the Hunger Games!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700); // Made wider to accommodate spinner
+        setSize(1250, 700); // Made even wider to accommodate larger right panel
         setLocationRelativeTo(null);
 
         // create main panel
@@ -61,10 +68,8 @@ public class AdventureGUI extends JFrame implements ActionListener {
         statusPanel.add(medicineLabel); // Add medicine to status panel
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(challengesLabel);
-        statusPanel.add(Box.createHorizontalStrut(20));
-        statusPanel.add(new JLabel("| Inventory: Type 'inventory' to view items"));
 
-        // Create a panel to hold both the game output and spinner
+        // Create a panel to hold both the game output and right side panels
         JPanel centerPanel = new JPanel(new BorderLayout());
 
         // create output area
@@ -85,30 +90,44 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Add the game output to the center
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Add hunger games logo
-        // Load and resize the logo
+        // Create right side panel to hold both spinner and inventory
+        JPanel rightPanel = new JPanel(new BorderLayout(5, 5));
+        rightPanel.setPreferredSize(new Dimension(300, 0)); // Increased from 280 to 300
+
+        // Add hunger games logo - make it smaller
         ImageIcon icon = new ImageIcon("src/images/HungerGamesLogo.png");
-        Image scaledImage = icon.getImage().getScaledInstance(180, 100, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH); // Reduced from 180x100
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         JLabel logoLabel = new JLabel(resizedIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Create a panel for the spinner
+        // Create a panel for the spinner with flexible sizing
         JPanel spinnerContainer = new JPanel(new BorderLayout());
         spinnerContainer.setBorder(BorderFactory.createTitledBorder("Game Spinner"));
+        
+        // Add the spinner directly without size constraints
+        spinnerPanel.setPreferredSize(new Dimension(270, 270)); // Increased from 250 to 270
+        
+        // Add the logo above spinner in spinnerContainer
+        spinnerContainer.add(logoLabel, BorderLayout.NORTH);
         spinnerContainer.add(spinnerPanel, BorderLayout.CENTER);
 
-        // Add the logo below spinner in spinnerContainer
-        spinnerContainer.add(logoLabel, BorderLayout.NORTH);
-
-        // Add instruction label
+        // Add instruction label - make it smaller
         JLabel instructionLabel = new JLabel(
                 "<html><center>Type 'clockwise' or<br>'counterclockwise'<br>to rotate the spinner</center></html>");
         instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 10));
+        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 9)); // Smaller font
         spinnerContainer.add(instructionLabel, BorderLayout.SOUTH);
 
-        // Add the spinner panel to the right side
-        centerPanel.add(spinnerContainer, BorderLayout.EAST);
+        // Create inventory panel
+        createInventoryPanel();
+
+        // Add both spinner and inventory to right panel with proper sizing
+        rightPanel.add(spinnerContainer, BorderLayout.NORTH);
+        rightPanel.add(inventoryPanel, BorderLayout.CENTER);
+
+        // Add the right panel to the center panel
+        centerPanel.add(rightPanel, BorderLayout.EAST);
 
         // create input panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
@@ -148,6 +167,60 @@ public class AdventureGUI extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    private void createInventoryPanel() {
+        inventoryPanel = new JPanel(new BorderLayout());
+        inventoryPanel.setBorder(BorderFactory.createTitledBorder("Inventory"));
+        
+        // Create list model and JList for inventory
+        inventoryListModel = new DefaultListModel<>();
+        inventoryList = new JList<>(inventoryListModel);
+        inventoryList.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 11));
+        inventoryList.setBackground(new Color(245, 245, 245));
+        inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        // Add scroll pane for inventory list
+        JScrollPane inventoryScrollPane = new JScrollPane(inventoryList);
+        inventoryScrollPane.setPreferredSize(new Dimension(250, 120)); // Reduced height slightly
+        inventoryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        inventoryPanel.add(inventoryScrollPane, BorderLayout.CENTER);
+        
+        // Add inventory count label
+        JLabel inventoryCountLabel = new JLabel("Items: 0/5", SwingConstants.CENTER);
+        inventoryCountLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 10));
+        inventoryPanel.add(inventoryCountLabel, BorderLayout.SOUTH);
+    }
+
+    private void updateInventoryDisplay() {
+        Player player = game.getPlayer();
+        List<Item> items = player.getInventory();
+        
+        // Clear the current list
+        inventoryListModel.clear();
+        
+        // Add all items to the list
+        if (items.isEmpty()) {
+            inventoryListModel.addElement("(No items)");
+        } else {
+            for (Item item : items) {
+                inventoryListModel.addElement("• " + item.getName());
+            }
+        }
+        
+        // Update inventory count label
+        JLabel countLabel = (JLabel) inventoryPanel.getComponent(1);
+        countLabel.setText("Items: " + items.size() + "/5");
+        
+        // Change color based on inventory fullness
+        if (items.size() >= 5) {
+            countLabel.setForeground(Color.RED);
+        } else if (items.size() >= 4) {
+            countLabel.setForeground(new Color(204, 102, 0)); // Darker orange
+        } else {
+            countLabel.setForeground(Color.BLACK);
+        }
+    }
+
     private void displayMessage(String message) {
         outputArea.append(message + "\n\n");
         outputArea.setCaretPosition(outputArea.getDocument().getLength());
@@ -171,7 +244,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         } else if (player.getHealth() <= 25) {
             healthLabel.setForeground(Color.RED);
         } else if (player.getHealth() <= 50) {
-            healthLabel.setForeground(Color.ORANGE);
+            healthLabel.setForeground(new Color(204, 102, 0)); // Darker orange
         } else {
             healthLabel.setForeground(Color.BLACK);
         }
@@ -181,10 +254,13 @@ public class AdventureGUI extends JFrame implements ActionListener {
         if (medicineCount <= 0) {
             medicineLabel.setForeground(Color.RED);
         } else if (medicineCount <= 10) {
-            medicineLabel.setForeground(Color.ORANGE);
+            medicineLabel.setForeground(new Color(204, 102, 0)); // Darker orange
         } else {
             medicineLabel.setForeground(Color.BLUE);
         }
+        
+        // Update inventory display whenever status is updated
+        updateInventoryDisplay();
     }
     
     private int getCurrentRoomChallengesFromGame() {
@@ -200,7 +276,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         if (medicineCount <= 0) {
             medicineLabel.setForeground(Color.RED);
         } else if (medicineCount <= 10) {
-            medicineLabel.setForeground(Color.ORANGE);
+            medicineLabel.setForeground(new Color(204, 102, 0)); // Darker orange
         } else {
             medicineLabel.setForeground(Color.BLUE);
         }
@@ -212,7 +288,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
             displayMessage("> " + input);
             String response = game.processCommand(input);
             displayMessage(response);
-            updateStatusLabels();
+            updateStatusLabels(); // This will also update inventory display
             inputField.setText("");
         }
         inputField.requestFocus();
