@@ -55,6 +55,27 @@ public class ChallengeLoader {
                             option.setSuccess(optionObj.get("success").getAsBoolean());
                         }
                         
+                        // Parse requiredInventory - THIS WAS MISSING!
+                        if (optionObj.has("requiredInventory")) {
+                            JsonArray requiredInventoryArray = optionObj.getAsJsonArray("requiredInventory");
+                            List<String> requiredInventory = new ArrayList<>();
+                            
+                            for (JsonElement inventoryElement : requiredInventoryArray) {
+                                requiredInventory.add(inventoryElement.getAsString());
+                            }
+                            
+                            option.setRequiredInventory(requiredInventory);
+                            
+                            // Debug output to verify parsing
+                            System.out.println("DEBUG: Loaded option '" + option.getCommand() + 
+                                             "' with required inventory: " + requiredInventory);
+                        } else {
+                            // Set empty list if no requiredInventory field
+                            option.setRequiredInventory(new ArrayList<>());
+                            System.out.println("DEBUG: Loaded option '" + option.getCommand() + 
+                                             "' with no required inventory");
+                        }
+                        
                         options.add(option);
                     }
                     

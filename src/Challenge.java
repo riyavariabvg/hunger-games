@@ -13,6 +13,7 @@ public class Challenge {
         this.prompt = prompt;
         this.options = options;
     }
+    
 
     // Getters and setters
     public String getId() {
