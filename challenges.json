@@ -12,7 +12,7 @@
     "id": "Middle_B",
     "prompt": "You spot a hunter's abandoned camp with supplies.",
     "options": [
-      {"command": "search camp", "result": "You find food and medicine.", "healthChange": 10, "success": true, "requiredInventory": []},
+      {"command": "search camp", "result": "You enter a trap set by the Career tributes. An explosion occurs", "healthChange": -20, "success": true, "requiredInventory": []},
       {"command": "avoid camp", "result": "You miss out on supplies but stay safe.", "healthChange": 0, "success": true, "requiredInventory": ["binoculars"]},
       {"command": "set trap", "result": "You set a trap for food.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "knife"]}
     ]
@@ -21,7 +21,7 @@
     "id": "Middle_C",
     "prompt": "You find a trapped rabbit in a snare.",
     "options": [
-      {"command": "free rabbit", "result": "You free it but lose time.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "free rabbit", "result": "You free it but lose time.", "healthChange": -10, "success": true, "requiredInventory": []},
       {"command": "leave rabbit alone", "result": "You keep moving forward.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
       {"command": "use rabbit for food", "result": "You get nourishment but feel guilty.", "healthChange": 10, "success": true, "requiredInventory": ["knife"]}
     ]
@@ -29,18 +29,18 @@
 
   {
     "id": "Section1_A",
-    "prompt": "A wild boar charges at you, blocking your path.",
+    "prompt": "A beast muttation designed by the Capitol charges at you, blocking your path.",
     "options": [
-      {"command": "fight", "result": "You fight but get hurt.", "healthChange": -10, "success": true, "requiredInventory": ["spear"]},
+      {"command": "fight", "result": "You fight but get hurt.", "healthChange": -20, "success": true, "requiredInventory": ["spear"]},
       {"command": "dodge", "result": "You dodge successfully.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "climb tree", "result": "You wait safely in a tree.", "healthChange": 0, "success": true, "requiredInventory": ["rope"]}
     ]
   },
   {
     "id": "Section1_B",
-    "prompt": "You find strange berries that might be poisonous.",
+    "prompt": "You find strange berries and have not eaten yet.",
     "options": [
-      {"command": "eat berries", "result": "They boost your energy!", "healthChange": 5, "success": true, "requiredInventory": ["antidote"]},
+      {"command": "eat berries", "result": "They are poisonous nightlock berries!", "healthChange": -10, "success": true, "requiredInventory": ["antidote"]},
       {"command": "avoid berries", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "collect berries", "result": "You collect berries for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
     ]
@@ -85,10 +85,10 @@
 
   {
     "id": "Section3_A",
-    "prompt": "A steep cliff blocks your path.",
+    "prompt": "You see your district partner trapped in quicksand",
     "options": [
-      {"command": "climb", "result": "You climb but scrape your hands.", "healthChange": -5, "success": true, "requiredInventory": ["climbing_gear"]},
-      {"command": "find another way", "result": "You take longer but safe path.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "pull them out", "result": "They express their gratitude by giving you medicine", "healthChange": 10, "success": true, "requiredInventory": ["rope"]},
+      {"command": "look the other way", "result": "You take longer but safe path.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "rest and plan", "result": "You recover energy before climbing.", "healthChange": 5, "success": true, "requiredInventory": ["map"]}
     ]
   },
