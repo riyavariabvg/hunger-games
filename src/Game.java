@@ -402,64 +402,74 @@ public class Game {
     }
 
     private String handleChallengeOption(Challenge.Option option) {
-        // Apply health change
-        player.changeHealth(option.getHealthChange());
-
-        // Apply medicine change if specified
-        if (option.getMedicineChange() != 0) {
-            medicineCount += option.getMedicineChange();
-            if (medicineCount < 0) {
-                medicineCount = 0; // Prevent negative medicine
+    // Remove required inventory items from player's inventory
+    if (option.getRequiredInventory() != null && !option.getRequiredInventory().isEmpty()) {
+        for (String requiredItem : option.getRequiredInventory()) {
+            Item item = player.getItem(requiredItem);
+            if (item != null) {
+                player.removeItem(requiredItem);
             }
         }
-
-        // Check if player died
-        if (player.getHealth() <= 0) {
-            gui.gameOver();
-            return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
-        }
-
-        // Increment challenges completed for current room
-        String currentRoomId = player.getCurrentRoom();
-        int currentCompleted = roomChallengeCompletions.get(currentRoomId);
-        roomChallengeCompletions.put(currentRoomId, currentCompleted + 1);
-
-        checkVictoryCondition();
-
-        String result = option.getResult();
-
-        if (option.getHealthChange() != 0) {
-            String healthChange = option.getHealthChange() > 0 ? "+" + option.getHealthChange()
-                    : String.valueOf(option.getHealthChange());
-            result += " (Health " + healthChange + ")";
-        }
-
-        if (option.getMedicineChange() != 0) {
-            String medicineChange = option.getMedicineChange() > 0 ? "+" + option.getMedicineChange()
-                    : String.valueOf(option.getMedicineChange());
-            result += " (Medicine " + medicineChange + ")";
-        }
-
-        result += "\nHealth: " + player.getHealth() + "/100";
-        result += "\nMedicine: " + medicineCount;
-        result += "\nChallenges completed: " + getCurrentRoomChallengesCompleted() + "/3";
-
-        // Clear current challenge
-        currentChallenge = null;
-
-        // Check if there are more challenges in current room
-        if (getCurrentRoomChallengesCompleted() < 3) {
-            Challenge nextChallenge = getNextChallengeForCurrentRoom();
-            if (nextChallenge != null) {
-                currentChallenge = nextChallenge;
-                result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
-            }
-        } else {
-            result += "\n\nYou have completed all challenges in this room! You can now move to another room.";
-        }
-
-        return result;
     }
+
+    // Apply health change
+    player.changeHealth(option.getHealthChange());
+
+    // Apply medicine change if specified
+    if (option.getMedicineChange() != 0) {
+        medicineCount += option.getMedicineChange();
+        if (medicineCount < 0) {
+            medicineCount = 0; // Prevent negative medicine
+        }
+    }
+
+    // Check if player died
+    if (player.getHealth() <= 0) {
+        gui.gameOver();
+        return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
+    }
+
+    // Increment challenges completed for current room
+    String currentRoomId = player.getCurrentRoom();
+    int currentCompleted = roomChallengeCompletions.get(currentRoomId);
+    roomChallengeCompletions.put(currentRoomId, currentCompleted + 1);
+
+    checkVictoryCondition();
+
+    String result = option.getResult();
+
+    if (option.getHealthChange() != 0) {
+        String healthChange = option.getHealthChange() > 0 ? "+" + option.getHealthChange()
+                : String.valueOf(option.getHealthChange());
+        result += " (Health " + healthChange + ")";
+    }
+
+    if (option.getMedicineChange() != 0) {
+        String medicineChange = option.getMedicineChange() > 0 ? "+" + option.getMedicineChange()
+                : String.valueOf(option.getMedicineChange());
+        result += " (Medicine " + medicineChange + ")";
+    }
+
+    result += "\nHealth: " + player.getHealth() + "/100";
+    result += "\nMedicine: " + medicineCount;
+    result += "\nChallenges completed: " + getCurrentRoomChallengesCompleted() + "/3";
+
+    // Clear current challenge
+    currentChallenge = null;
+
+    // Check if there are more challenges in current room
+    if (getCurrentRoomChallengesCompleted() < 3) {
+        Challenge nextChallenge = getNextChallengeForCurrentRoom();
+        if (nextChallenge != null) {
+            currentChallenge = nextChallenge;
+            result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
+        }
+    } else {
+        result += "\n\nYou have completed all challenges in this room! You can now move to another room.";
+    }
+
+    return result;
+}
 
     private Challenge getNextChallengeForCurrentRoom() {
         String currentRoomId = player.getCurrentRoom();
@@ -502,6 +512,13 @@ public class Game {
         description.append(currentRoom.getDescription()).append("\n\n");
         description.append(currentRoom.getItemsString()).append("\n");
         description.append(currentRoom.getExitsString());
+
+        // Add current challenge information if player is facing one
+        if (currentChallenge != null) {
+            description.append("\n\n--- Current Challenge ---\n");
+            description.append(currentChallenge.getPrompt()).append("\n");
+            description.append(currentChallenge.getOptionsString());
+        }
 
         return description.toString();
     }

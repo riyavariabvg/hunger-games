@@ -81,7 +81,7 @@ public class Room {
             return "There are no items here.";
         }
        
-        StringBuilder sb = new StringBuilder("Items in this room:\n");
+        StringBuilder sb = new StringBuilder("Items in this room (type 'ignore' if not interested):\n");
         for (Item item : items) {
             sb.append("- ").append(item.getName())
               .append(": ").append(item.getDescription()).append("\n");
