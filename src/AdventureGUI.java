@@ -24,7 +24,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         // Create spinner panel first
         spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
         // Pass spinner panel to game
-        game = new Game(spinnerPanel);
+        game = new Game(spinnerPanel, this);
         initializeGUI();
         displayMessage(game.getStartMessage());
         updateStatusLabels();
@@ -63,7 +63,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
         outputArea = new JTextArea();
         outputArea.setEditable(false);
         outputArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
-        outputArea.setBackground(new Color(55, 79, 47));
+        outputArea.setBackground(new Color(34, 49, 29));
         outputArea.setForeground(new Color(230, 230, 230));
         outputArea.setCaretColor(Color.GREEN);
         outputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -181,4 +181,52 @@ public class AdventureGUI extends JFrame implements ActionListener {
             processInput();
         }
     }
+
+    public void gameOver() {
+    // Remove all components from the frame
+    getContentPane().removeAll();
+    repaint();
+
+    // Load and scale the Game Over image
+    ImageIcon gameOverIcon = new ImageIcon("src/images/GameOver.png");
+    Image image = gameOverIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+    gameOverIcon = new ImageIcon(image);
+
+    // Create a label with the image
+    JLabel gameOverLabel = new JLabel(gameOverIcon);
+    gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    gameOverLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+    // Add it to the frame
+    add(gameOverLabel);
+
+    // Refresh the frame
+    revalidate();
+    repaint();
 }
+
+public void victory() {
+    // Remove all components from the frame
+    getContentPane().removeAll();
+    repaint();
+
+    // Load and scale the Victory image
+    ImageIcon victoryIcon = new ImageIcon("src/images/Victory.png");
+    Image image = victoryIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+    victoryIcon = new ImageIcon(image);
+
+    // Create a label with the image
+    JLabel victoryLabel = new JLabel(victoryIcon);
+    victoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    victoryLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+    // Add it to the frame
+    add(victoryLabel);
+
+    // Refresh the frame
+    revalidate();
+    repaint();
+}
+
+}
+

@@ -18,6 +18,7 @@ public class SpinnerPanel extends JPanel {
     private double rotatedSoFar = 0;      // how much we have rotated in this animation so far
 
     public SpinnerPanel(String imagePath) {
+
         try {
             spinnerImage = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
@@ -77,10 +78,10 @@ public class SpinnerPanel extends JPanel {
     }
 
     public void rotateCounterclockwise() {
-        if (timer.isRunning()) return; 
-        targetAngle = Math.toRadians(-30);  
-        rotationStep = Math.toRadians(-2);  
-        rotatedSoFar = 0;
-        timer.start();
+        angle -= Math.toRadians(30);
+        repaint();
+          
     }
-}
+        
+    }
+

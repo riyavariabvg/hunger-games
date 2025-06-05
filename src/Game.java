@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Game {
+    private AdventureGUI gui;
     private Player player;
     private Map<String, Room> rooms;
     private List<Challenge> challenges;
@@ -23,9 +24,10 @@ public class Game {
     private Map<String, List<Challenge>> roomChallenges;
 
     // Constructor that accepts a SpinnerPanel from the GUI
-    public Game(SpinnerPanel spinnerPanel) {
+    public Game(SpinnerPanel spinnerPanel, AdventureGUI gui) {
         this.player = new Player();
         this.random = new Random();
+        this.gui = gui;
         this.spinnerPanel = spinnerPanel;
         this.roomChallengeCompletions = new HashMap<>();
         this.roomChallenges = new HashMap<>();
@@ -82,6 +84,7 @@ public class Game {
     public String processCommand(String input) {
         // Check if player is dead
         if (player.getHealth() <= 0) {
+            gui.gameOver();
             return "GAME OVER! Your health has reached 0. You have died in the adventure.\nType 'restart' to begin again.";
         }
 
@@ -303,56 +306,17 @@ public class Game {
 }
     
     private boolean hasRequiredInventory(Challenge.Option option) {
-    
-    
-    // Get the required inventory list
-    List<String> requiredItems = option.getRequiredInventory();
-    
-    
-    // Handle null or empty requirements
-    if (requiredItems == null) {
-        
-        return true; // No requirements
-    }
-    
-    if (requiredItems.isEmpty()) {
-        
-        return true; // No requirements
-    }
-    
-    
-    
-    // Get player's actual item names and IDs for debugging
-    List<String> playerItems = new ArrayList<>();
-    List<String> playerItemNames = new ArrayList<>();
-    List<String> playerItemIds = new ArrayList<>();
-    
-    for (Item item : player.getInventory()) {
-        playerItems.add("Name: '" + item.getName() + "', ID: '" + item.getId() + "'");
-        playerItemNames.add(item.getName().toLowerCase());
-        playerItemIds.add(item.getId().toLowerCase());
-    }
-    
-    
-    // Check each required item
-    for (String requiredItem : requiredItems) {
-        
-        
-        boolean hasItem = player.hasItem(requiredItem);
-        
-        
-        // Additional manual check for debugging
-        boolean manualCheck = playerItemNames.contains(requiredItem.toLowerCase()) || 
-                             playerItemIds.contains(requiredItem.toLowerCase());
-        
-        
-        if (!hasItem) {
-            
-            return false;
+        if (option.getRequiredInventory() == null || option.getRequiredInventory().isEmpty()) {
+            return true; // No requirements
         }
+        
+        for (String requiredItem : option.getRequiredInventory()) {
+            if (!player.hasItem(requiredItem)) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
-}
 
     private String handleChallengeOption(Challenge.Option option) {
         // Apply health change
@@ -360,6 +324,7 @@ public class Game {
 
         // Check if player died
         if (player.getHealth() <= 0) {
+            gui.gameOver();
             return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
         }
 
@@ -367,6 +332,8 @@ public class Game {
         String currentRoomId = player.getCurrentRoom();
         int currentCompleted = roomChallengeCompletions.get(currentRoomId);
         roomChallengeCompletions.put(currentRoomId, currentCompleted + 1);
+
+          checkVictoryCondition();
 
         String result = option.getResult();
 
@@ -455,7 +422,9 @@ public class Game {
         }
 
         return "You have been reaped as the " + gender + " tribute from district " + x + "\n" +
-                "May the odds be ever in your favor. \n" +
+                
+                "To be crowned victor, your goal is to get through all sections of the arena without losing your health. \n" +
+                "May the odds be ever in your favor. \n" + "\n" +
                 "You find yourself in the middle of your journey...\n" +
                 "Health: " + player.getHealth() + "/100\n" +
                 "Type 'help' for available commands.\n\n" +

@@ -125,7 +125,7 @@
     "prompt": "You hear footsteps behind you.",
     "options": [
       {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "confront", "result": "It's a friendly traveler.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
+      {"command": "confront", "result": "It's a friendly district 12 ally.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
       {"command": "run", "result": "You trip and get hurt.", "healthChange": -8, "success": false, "requiredInventory": ["boots"]}
     ]
   },
@@ -348,7 +348,7 @@
     "prompt": "You hear footsteps behind you.",
     "options": [
       {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "confront", "result": "It's a friendly traveler.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
+      {"command": "confront", "result": "It's a friendly ally from district 8.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
       {"command": "run", "result": "You trip and get hurt.", "healthChange": -8, "success": false, "requiredInventory": ["boots"]}
     ]
   },
