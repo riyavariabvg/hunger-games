@@ -76,6 +76,11 @@ public class CommandParser {
         String cmd = command.toLowerCase().trim();
         return cmd.equals("drop") || cmd.startsWith("drop ");
     }
+    public static boolean isIgnoreCommand(String command) {
+        String cmd = command.toLowerCase().trim();
+        return cmd.equals("ignore") || cmd.startsWith("ignore ");
+    }
+
    
     public static boolean isLookCommand(String command) {
         String cmd = command.toLowerCase().trim();

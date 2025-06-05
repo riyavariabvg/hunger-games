@@ -1,6 +1,9 @@
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 import javax.swing.JOptionPane;
 
@@ -12,20 +15,32 @@ public class Game {
     private Challenge currentChallenge;
     private Random random;
     private SpinnerPanel spinnerPanel;
+    
+    // Track challenges completed per room
+    private Map<String, Integer> roomChallengeCompletions;
+    
+    // Track available challenges per room (room-specific challenges)
+    private Map<String, List<Challenge>> roomChallenges;
 
     // Constructor that accepts a SpinnerPanel from the GUI
     public Game(SpinnerPanel spinnerPanel) {
         this.player = new Player();
         this.random = new Random();
         this.spinnerPanel = spinnerPanel;
+        this.roomChallengeCompletions = new HashMap<>();
+        this.roomChallenges = new HashMap<>();
         loadGameData();
+        initializeRoomChallenges();
     }
 
     // Default constructor for backward compatibility
     public Game() {
         this.player = new Player();
         this.random = new Random();
+        this.roomChallengeCompletions = new HashMap<>();
+        this.roomChallenges = new HashMap<>();
         loadGameData();
+        initializeRoomChallenges();
         // Only create spinner panel if one wasn't provided
         if (this.spinnerPanel == null) {
             this.spinnerPanel = new SpinnerPanel("src/images/spinnerImage.png");
@@ -40,6 +55,30 @@ public class Game {
         System.out.println("Loaded " + rooms.size() + " rooms");
         System.out.println("Loaded " + challenges.size() + " challenges");
         System.out.println("Loaded " + sectionInventories.size() + " section inventories");
+    }
+    
+    private void initializeRoomChallenges() {
+        // Initialize challenge completion tracking for each room
+        for (String roomId : rooms.keySet()) {
+            roomChallengeCompletions.put(roomId, 0);
+        }
+        
+        // Group challenges by room based on challenge ID prefixes
+        // Assuming challenge IDs follow format like "Section1_A", "Section1_B", etc.
+        for (Challenge challenge : challenges) {
+            String challengeId = challenge.getId();
+            String roomId = extractRoomIdFromChallenge(challengeId);
+            
+            roomChallenges.computeIfAbsent(roomId, k -> new ArrayList<>()).add(challenge);
+        }
+    }
+    
+    private String extractRoomIdFromChallenge(String challengeId) {
+        // Extract room ID from challenge ID (e.g., "Section12_A" -> "Section12")
+        if (challengeId.contains("_")) {
+            return challengeId.substring(0, challengeId.lastIndexOf("_"));
+        }
+        return challengeId; // fallback
     }
 
     public String processCommand(String input) {
@@ -66,8 +105,9 @@ public class Game {
 
         // Handle health/status command
         if (CommandParser.isHealthCommand(action)) {
+            int currentRoomChallenges = getCurrentRoomChallengesCompleted();
             return "Health: " + player.getHealth() + "/100\n" +
-                    "Challenges completed in this room: " + player.getChallengesCompleted() + "/3\n" +
+                    "Challenges completed in this room: " + currentRoomChallenges + "/3\n" +
                     player.getInventoryString();
         }
 
@@ -84,6 +124,10 @@ public class Game {
         // Handle take command
         if (CommandParser.isTakeCommand(action)) {
             return handleTakeCommand(target);
+        }
+
+        if (CommandParser.isIgnoreCommand(action)) {
+            return handleIgnoreCommand(target);
         }
 
         // Handle drop command
@@ -141,8 +185,8 @@ public class Game {
         String result = "You take the " + item.getName() + ".";
 
         // Check if we should start challenges after taking an item
-        if (player.getChallengesCompleted() == 0 && !challenges.isEmpty()) {
-            Challenge nextChallenge = getNextChallenge();
+        if (getCurrentRoomChallengesCompleted() == 0 && hasRoomChallenges()) {
+            Challenge nextChallenge = getNextChallengeForCurrentRoom();
             if (nextChallenge != null) {
                 currentChallenge = nextChallenge;
                 result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
@@ -150,6 +194,24 @@ public class Game {
         }
 
         return result;
+    }
+
+    private String handleIgnoreCommand(String itemName) {
+
+        Room currentRoom = rooms.get(player.getCurrentRoom());
+        if (currentRoom == null) {
+            return "You are not in a valid room.";
+        }
+        String result = "You ignore the inventory.";
+        if (getCurrentRoomChallengesCompleted() == 0 && hasRoomChallenges()) {
+            Challenge nextChallenge = getNextChallengeForCurrentRoom();
+            if (nextChallenge != null) {
+                currentChallenge = nextChallenge;
+                result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
+            }
+        }
+        return result;
+
     }
 
     private String handleDropCommand(String itemName) {
@@ -174,9 +236,10 @@ public class Game {
     }
 
     private String handleMovementCommand(String direction) {
-        if (!player.canMoveToNextRoom()) {
+        if (!canMoveFromCurrentRoom()) {
+            int completed = getCurrentRoomChallengesCompleted();
             return "You need to complete all challenges in this room before you can move. " +
-                    "Challenges completed: " + player.getChallengesCompleted() + "/3";
+                    "Challenges completed: " + completed + "/3";
         }
 
         Room currentRoom = rooms.get(player.getCurrentRoom());
@@ -207,24 +270,43 @@ public class Game {
     }
 
     private String tryProcessChallengeCommand(String command) {
-        // Only allow challenge commands if we haven't completed all challenges
-        if (player.getChallengesCompleted() >= 3) {
+        // Only allow challenge commands if we haven't completed all challenges in current room
+        if (getCurrentRoomChallengesCompleted() >= 3) {
             return null;
         }
 
-        // Get the next challenge
-        Challenge nextChallenge = getNextChallenge();
+        // Get the next challenge for current room
+        Challenge nextChallenge = getNextChallengeForCurrentRoom();
         if (nextChallenge == null) {
             return null;
         }
 
         Challenge.Option option = nextChallenge.getOption(command);
         if (option != null) {
+            // Check if player has required inventory items
+            if (!hasRequiredInventory(option)) {
+                return "You don't have the required items to choose this option. Required: " + 
+                       String.join(", ", option.getRequiredInventory());
+            }
+            
             currentChallenge = nextChallenge;
             return handleChallengeOption(option);
         }
 
         return null;
+    }
+    
+    private boolean hasRequiredInventory(Challenge.Option option) {
+        if (option.getRequiredInventory() == null || option.getRequiredInventory().isEmpty()) {
+            return true; // No requirements
+        }
+        
+        for (String requiredItem : option.getRequiredInventory()) {
+            if (!player.hasItem(requiredItem)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private String handleChallengeOption(Challenge.Option option) {
@@ -236,8 +318,10 @@ public class Game {
             return option.getResult() + "\n\nYour health has dropped to 0! GAME OVER!\nType 'restart' to begin again.";
         }
 
-        // Increment challenges completed
-        player.incrementChallengesCompleted();
+        // Increment challenges completed for current room
+        String currentRoomId = player.getCurrentRoom();
+        int currentCompleted = roomChallengeCompletions.get(currentRoomId);
+        roomChallengeCompletions.put(currentRoomId, currentCompleted + 1);
 
         String result = option.getResult();
 
@@ -248,14 +332,14 @@ public class Game {
         }
 
         result += "\nHealth: " + player.getHealth() + "/100";
-        result += "\nChallenges completed: " + player.getChallengesCompleted() + "/3";
+        result += "\nChallenges completed: " + getCurrentRoomChallengesCompleted() + "/3";
 
         // Clear current challenge
         currentChallenge = null;
 
-        // Check if there are more challenges
-        if (player.getChallengesCompleted() < 3) {
-            Challenge nextChallenge = getNextChallenge();
+        // Check if there are more challenges in current room
+        if (getCurrentRoomChallengesCompleted() < 3) {
+            Challenge nextChallenge = getNextChallengeForCurrentRoom();
             if (nextChallenge != null) {
                 currentChallenge = nextChallenge;
                 result += "\n\n" + nextChallenge.getPrompt() + "\n" + nextChallenge.getOptionsString();
@@ -267,13 +351,35 @@ public class Game {
         return result;
     }
 
-    private Challenge getNextChallenge() {
-        if (challenges.isEmpty() || player.getChallengesCompleted() >= challenges.size()) {
+    private Challenge getNextChallengeForCurrentRoom() {
+        String currentRoomId = player.getCurrentRoom();
+        List<Challenge> roomSpecificChallenges = roomChallenges.get(currentRoomId);
+        
+        if (roomSpecificChallenges == null || roomSpecificChallenges.isEmpty()) {
+            return null;
+        }
+        
+        int challengesCompleted = getCurrentRoomChallengesCompleted();
+        if (challengesCompleted >= roomSpecificChallenges.size()) {
             return null;
         }
 
-        // For now, return challenges in order. You could randomize this if desired.
-        return challenges.get(player.getChallengesCompleted());
+        return roomSpecificChallenges.get(challengesCompleted);
+    }
+    
+    private boolean hasRoomChallenges() {
+        String currentRoomId = player.getCurrentRoom();
+        List<Challenge> roomSpecificChallenges = roomChallenges.get(currentRoomId);
+        return roomSpecificChallenges != null && !roomSpecificChallenges.isEmpty();
+    }
+    
+    private int getCurrentRoomChallengesCompleted() {
+        String currentRoomId = player.getCurrentRoom();
+        return roomChallengeCompletions.getOrDefault(currentRoomId, 0);
+    }
+    
+    private boolean canMoveFromCurrentRoom() {
+        return getCurrentRoomChallengesCompleted() >= 3;
     }
 
     public String getCurrentRoomDescription() {
@@ -315,6 +421,10 @@ public class Game {
     public void restart() {
         this.player = new Player();
         this.currentChallenge = null;
+        // Reset all room challenge completions
+        for (String roomId : rooms.keySet()) {
+            roomChallengeCompletions.put(roomId, 0);
+        }
     }
 
     private String getHelpText() {
@@ -324,12 +434,14 @@ public class Game {
                 "- take <item>: Take an item from the room\n" +
                 "- drop <item>: Drop an item from your inventory\n" +
                 "- inventory (or inv): Show your inventory and items you're carrying\n" +
+                "- ignore: ignores inventory to move on to challenges\n" +
                 "- health: Show your health and status\n" +
                 "- clockwise: Move clockwise (when available)\n" +
                 "- counterclockwise: Move counterclockwise (when available)\n" +
                 "- restart: Restart the game if you die\n" +
                 "\nChallenge commands will be shown when challenges appear.\n" +
                 "You must complete 3 challenges in each room before you can move to the next room.\n" +
+                "Some challenge options require specific inventory items!\n" +
                 "WARNING: If your health reaches 0, you will die and need to restart!";
     }
 
