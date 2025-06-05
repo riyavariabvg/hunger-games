@@ -317,7 +317,21 @@ public class Game {
         }
         return true;
     }
+public void checkVictoryCondition() {
+    // Iterate over all rooms and check if their challenges are fully completed
+    for (String roomId : rooms.keySet()) {
+        List<Challenge> roomSpecificChallenges = roomChallenges.get(roomId);
+        int completed = roomChallengeCompletions.getOrDefault(roomId, 0);
 
+        // If any room has incomplete challenges, return early
+        if (roomSpecificChallenges == null || completed < roomSpecificChallenges.size()) {
+            return; // Not all challenges completed yet
+        }
+    }
+    
+    // If we get here, all rooms are fully completed
+    gui.victory();
+}
     private String handleChallengeOption(Challenge.Option option) {
         // Apply health change
         player.changeHealth(option.getHealthChange());

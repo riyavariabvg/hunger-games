@@ -171,7 +171,7 @@
     "id": "Section6_A",
     "prompt": "A sudden earthquake shakes the ground.",
     "options": [
-      {"command": "take cover", "result": "You protect yourself successfully.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "cover", "result": "You protect yourself successfully.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "run", "result": "You trip and get hurt.", "healthChange": -10, "success": false, "requiredInventory": ["helmet"]},
       {"command": "freeze", "result": "You avoid panic but lose time.", "healthChange": 0, "success": false, "requiredInventory": ["emergency_kit"]}
     ]
@@ -236,7 +236,7 @@
     "id": "Section8_B",
     "prompt": "You find a mysterious glowing stone.",
     "options": [
-      {"command": "take stone", "result": "You feel energized.", "healthChange": 7, "success": true, "requiredInventory": ["magic_gloves"]},
+      {"command": "grab stone", "result": "You feel energized.", "healthChange": 7, "success": true, "requiredInventory": ["magic_gloves"]},
       {"command": "leave stone", "result": "You avoid potential danger.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "examine stone", "result": "You learn about its properties.", "healthChange": 0, "success": true, "requiredInventory": ["magnifying_glass"]}
     ]
