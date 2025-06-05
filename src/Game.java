@@ -144,6 +144,7 @@ public class Game {
         if (currentChallenge != null) {
             Challenge.Option option = currentChallenge.getOption(fullCommand);
             if (option != null) {
+                
                 return handleChallengeOption(option);
             }
         }
@@ -434,7 +435,7 @@ public class Game {
                 "- take <item>: Take an item from the room\n" +
                 "- drop <item>: Drop an item from your inventory\n" +
                 "- inventory (or inv): Show your inventory and items you're carrying\n" +
-                "- ignore: ignores inventory to move on to challenges\n" +
+                "- ignore/start: ignores inventory to move on to challenges\n" +
                 "- health: Show your health and status\n" +
                 "- clockwise: Move clockwise (when available)\n" +
                 "- counterclockwise: Move counterclockwise (when available)\n" +
