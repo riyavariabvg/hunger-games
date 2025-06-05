@@ -13,6 +13,7 @@ public class SpinnerPanel extends JPanel {
   private double angle = 0; // Current rotation in radians
 
     public SpinnerPanel(String imagePath) {
+
         try {
             spinnerImage = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
@@ -63,7 +64,9 @@ protected void paintComponent(Graphics g) {
     // Rotate 30 degrees counterclockwise
     public void rotateCounterclockwise() {
         angle -= Math.toRadians(30);
+        
         repaint();
+
         
     }
 }
