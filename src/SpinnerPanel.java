@@ -69,6 +69,7 @@ public class SpinnerPanel extends JPanel {
         return new Dimension(displayWidth, displayHeight);
     }
 
+    // rotate spinner clockwise or counterclockwise methods
     public void rotateClockwise() {
         if (timer.isRunning()) return; // ignore if already animating
         targetAngle = Math.toRadians(30);  

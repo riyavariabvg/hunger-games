@@ -55,7 +55,7 @@ public class ChallengeLoader {
                             option.setSuccess(optionObj.get("success").getAsBoolean());
                         }
                         
-                        // Parse requiredInventory - THIS WAS MISSING!
+            
                         if (optionObj.has("requiredInventory")) {
                             JsonArray requiredInventoryArray = optionObj.getAsJsonArray("requiredInventory");
                             List<String> requiredInventory = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ChallengeLoader {
                             
                             
                         } else {
-                            // Set empty list if no requiredInventory field
+                            // set empty list if no requiredInventory field
                             option.setRequiredInventory(new ArrayList<>());
                             
                         }

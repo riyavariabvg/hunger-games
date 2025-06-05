@@ -15,7 +15,7 @@ public class Challenge {
     }
     
 
-    // Getters and setters
+    // getters and setters
     public String getId() {
         return id;
     }
@@ -65,13 +65,13 @@ public class Challenge {
         private String command;
         private String result;
         private int healthChange;
-        private int medicineChange; // Add medicine change field
+        private int medicineChange; // add medicine change field
         private boolean success;
         private List<String> requiredInventory;
 
         public Option() {
             this.requiredInventory = new ArrayList<>();
-            this.medicineChange = 0; // Default to no medicine change
+            this.medicineChange = 0; // default to no medicine change
         }
 
         public Option(String command, String result, int healthChange, boolean success) {
@@ -80,7 +80,7 @@ public class Challenge {
             this.healthChange = healthChange;
             this.success = success;
             this.requiredInventory = new ArrayList<>();
-            this.medicineChange = 0; // Default to no medicine change
+            this.medicineChange = 0; // default to no medicine change
         }
 
         public Option(String command, String result, int healthChange, int medicineChange, boolean success) {
@@ -92,7 +92,7 @@ public class Challenge {
             this.requiredInventory = new ArrayList<>();
         }
 
-        // Getters and setters
+        // getters and setters
         public String getCommand() {
             return command;
         }

@@ -17,7 +17,7 @@ public class Player {
         this.challengesCompleted = 0;
     }
 
-    // Health methods
+    // health methods
     public int getHealth() {
         return health;
     }
@@ -30,14 +30,12 @@ public class Player {
             health = 100;
     }
 
-    // Inventory methods
+    // inventory methods
     public List<Item> getInventory() {
         return new ArrayList<>(inventory);
     }
 
-    // public void addItem(Item item) {
-    // inventory.add(item);
-    // }
+   
 
     public boolean addItem(Item item) {
         if (inventory.size() >= MAX_INVENTORY_SIZE) {
@@ -66,17 +64,17 @@ public class Player {
                 .orElse(null);
     }
 
-    // Room methods
+    // room methods
     public String getCurrentRoom() {
         return currentRoom;
     }
 
     public void setCurrentRoom(String room) {
         this.currentRoom = room;
-        this.challengesCompleted = 0; // Reset challenges when entering new room
+        this.challengesCompleted = 0; // reset challenges when entering new room
     }
 
-    // Challenge methods
+    // challenge methods
     public int getChallengesCompleted() {
         return challengesCompleted;
     }
@@ -86,7 +84,7 @@ public class Player {
     }
 
     public boolean canMoveToNextRoom() {
-        return challengesCompleted >= 3; // Need to complete 3 challenges
+        return challengesCompleted >= 3; // need to complete 3 challenges
     }
     public void setChallengesCompleted(int count) {
     this.challengesCompleted = count;
@@ -105,7 +103,7 @@ public class Player {
             sb.append((i + 1)).append(". ").append(item.getName())
                     .append(" - ").append(item.getDescription()).append("\n");
         }
-        // sb.append("Total items: ").append(inventory.size());
+    
 
         sb.append("Total items: ").append(inventory.size())
                 .append(" / ").append(MAX_INVENTORY_SIZE);
