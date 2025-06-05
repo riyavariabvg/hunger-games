@@ -88,7 +88,7 @@
     "prompt": "You see your district partner trapped in quicksand",
     "options": [
       {"command": "pull them out", "result": "You fall into the quicksand", "healthChange": -10, "success": true, "requiredInventory": ["rope"]},
-      {"command": "look the other way", "result": "You feel guilty but you remain safe.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "search the other way", "result": "You feel guilty but you remain safe.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "yell instructions", "result": "They express their gratitude by giving you medicine.", "healthChange": 10, "success": true, "requiredInventory": []}
     ]
   },
@@ -117,7 +117,7 @@
     "options": [
       {"command": "swim across", "result": "You barely make it, very tired.", "healthChange": -10, "success": true, "requiredInventory": []},
       {"command": "build raft from tree", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "look for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]}
+      {"command": "search for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]}
     ]
   },
   {
@@ -340,7 +340,7 @@
     "options": [
       {"command": "swim across", "result": "You barely make it, very tired.", "healthChange": -10, "success": true, "requiredInventory": []},
       {"command": "build raft", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "look for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": []}
+      {"command": "search for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
