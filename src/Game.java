@@ -52,9 +52,7 @@ public class Game {
         this.challenges = ChallengeLoader.loadChallenges("challenges.json");
         this.sectionInventories = InventoryLoader.loadInventories("inventory.json");
 
-        System.out.println("Loaded " + rooms.size() + " rooms");
-        System.out.println("Loaded " + challenges.size() + " challenges");
-        System.out.println("Loaded " + sectionInventories.size() + " section inventories");
+        
     }
     
     private void initializeRoomChallenges() {
@@ -142,12 +140,18 @@ public class Game {
 
         // Check if it's a challenge command
         if (currentChallenge != null) {
-            Challenge.Option option = currentChallenge.getOption(fullCommand);
-            if (option != null) {
-                
-                return handleChallengeOption(option);
-            }
+    Challenge.Option option = currentChallenge.getOption(fullCommand);
+    if (option != null) {
+        // Check if player has required inventory items
+        if (!hasRequiredInventory(option)) {
+            return "You don't have the required items to choose this option. Required: " + 
+                   String.join(", ", option.getRequiredInventory());
         }
+        
+        return handleChallengeOption(option);
+    }
+}
+
 
         // Check if command matches any challenge option from available challenges
         String challengeResult = tryProcessChallengeCommand(fullCommand);
@@ -271,44 +275,84 @@ public class Game {
     }
 
     private String tryProcessChallengeCommand(String command) {
-        // Only allow challenge commands if we haven't completed all challenges in current room
-        if (getCurrentRoomChallengesCompleted() >= 3) {
-            return null;
-        }
-
-        // Get the next challenge for current room
-        Challenge nextChallenge = getNextChallengeForCurrentRoom();
-        if (nextChallenge == null) {
-            return null;
-        }
-
-        Challenge.Option option = nextChallenge.getOption(command);
-        if (option != null) {
-            // Check if player has required inventory items
-            if (!hasRequiredInventory(option)) {
-                return "You don't have the required items to choose this option. Required: " + 
-                       String.join(", ", option.getRequiredInventory());
-            }
-            
-            currentChallenge = nextChallenge;
-            return handleChallengeOption(option);
-        }
-
+    // Only allow challenge commands if we haven't completed all challenges in current room
+    if (getCurrentRoomChallengesCompleted() >= 3) {
         return null;
     }
-    
-    private boolean hasRequiredInventory(Challenge.Option option) {
-        if (option.getRequiredInventory() == null || option.getRequiredInventory().isEmpty()) {
-            return true; // No requirements
+
+    // Get the next challenge for current room
+    Challenge nextChallenge = getNextChallengeForCurrentRoom();
+    if (nextChallenge == null) {
+        return null;
+    }
+
+    Challenge.Option option = nextChallenge.getOption(command);
+    if (option != null) {
+        // Check if player has required inventory items
+        if (!hasRequiredInventory(option)) {
+            return "You don't have the required items to choose this option. Required: " + 
+                   String.join(", ", option.getRequiredInventory());
         }
         
-        for (String requiredItem : option.getRequiredInventory()) {
-            if (!player.hasItem(requiredItem)) {
-                return false;
-            }
-        }
-        return true;
+        // Set current challenge and handle the option
+        currentChallenge = nextChallenge;
+        return handleChallengeOption(option);
     }
+
+    return null;
+}
+    
+    private boolean hasRequiredInventory(Challenge.Option option) {
+    
+    
+    // Get the required inventory list
+    List<String> requiredItems = option.getRequiredInventory();
+    
+    
+    // Handle null or empty requirements
+    if (requiredItems == null) {
+        
+        return true; // No requirements
+    }
+    
+    if (requiredItems.isEmpty()) {
+        
+        return true; // No requirements
+    }
+    
+    
+    
+    // Get player's actual item names and IDs for debugging
+    List<String> playerItems = new ArrayList<>();
+    List<String> playerItemNames = new ArrayList<>();
+    List<String> playerItemIds = new ArrayList<>();
+    
+    for (Item item : player.getInventory()) {
+        playerItems.add("Name: '" + item.getName() + "', ID: '" + item.getId() + "'");
+        playerItemNames.add(item.getName().toLowerCase());
+        playerItemIds.add(item.getId().toLowerCase());
+    }
+    
+    
+    // Check each required item
+    for (String requiredItem : requiredItems) {
+        
+        
+        boolean hasItem = player.hasItem(requiredItem);
+        
+        
+        // Additional manual check for debugging
+        boolean manualCheck = playerItemNames.contains(requiredItem.toLowerCase()) || 
+                             playerItemIds.contains(requiredItem.toLowerCase());
+        
+        
+        if (!hasItem) {
+            
+            return false;
+        }
+    }
+    return true;
+}
 
     private String handleChallengeOption(Challenge.Option option) {
         // Apply health change
