@@ -21,9 +21,9 @@
         "description": "A shiny, silver sword."
       },
       {
-        "id": "repellent",
-        "name": "Tracker Jacker Repellent",
-        "description": "A strong-smelling substance to keep bugs away."
+        "id": "boots",
+        "name": "Boots",
+        "description": "Old boots covered in mud."
       },
       {
         "id": "raft",
@@ -31,13 +31,22 @@
         "description": "A wooden raft to keep you afloat."
       },
       {
-        "id": "matches",
-        "name": "Matches",
-        "description": "Could be useful to keep you warm."
+        "id": "logs",
+        "name": "Logs",
+        "description": "Some heavy wooden logs."
+      },
+      {
+        "id": "rope",
+        "name": "Rope",
+        "description": "A sturdy piece of rope."
+      },
+      {
+        "id": "knife",
+        "name": "Knife",
+        "description": "A shiny knife, useful in many situations."
       }
     ]
   },
-
   "Section1": {
     "description": "You are in Section 1. Mist rises from the swampy ground.",
     "exits": {
@@ -46,18 +55,32 @@
     },
     "items": [
       {
-        "id": "swamp_stick",
-        "name": "Swamp Stick",
-        "description": "A soggy stick that might be useful."
+        "id": "first_aid",
+        "name": "First Aid Kit",
+        "description": "A plastic box full of useful supplies"
       },
       {
-        "id": "muddy_boot",
-        "name": "Muddy Boot",
-        "description": "An old boot covered in mud."
+        "id": "spear",
+        "name": "Spear",
+        "description": "A sharp weapon for defense and hunting."
+      },
+      {
+        "id": "rope",
+        "name": "Rope",
+        "description": "A sturdy piece of rope."
+      },
+      {
+        "id": "pouch",
+        "name": "Pouch",
+        "description": "A small bag to carry vital supplies."
+      },
+      {
+        "id": "flare",
+        "name": "Flare",
+        "description": "Signals for help or distracts enemies."
       }
     ]
   },
-
   "Section2": {
     "description": "You are in Section 2. The air smells of smoke. Trees are burning here.",
     "exits": {
@@ -66,18 +89,37 @@
     },
     "items": [
       {
-        "id": "burnt_leaf",
-        "name": "Burnt Leaf",
-        "description": "A leaf charred by flames."
+        "id": "medicine_pack",
+        "name": "Medicine Pack",
+        "description": "A plastic pack filled with medicine"
       },
       {
-        "id": "smoke_glass",
-        "name": "Smoke Glass",
-        "description": "A piece of glass covered in soot."
+        "id": "axe",
+        "name": "Axe",
+        "description": "Heavy weapon for combat or chopping obstacles."
+      },
+      {
+        "id": "binoculars",
+        "name": "Boniculars",
+        "description": "Zoom in to spot distant dangers or supplies."
+      },
+      {
+        "id": "spear",
+        "name": "Spear",
+        "description": "A sharp weapon for defense and hunting."
+      },
+      {
+        "id": "camouflage_cloth",
+        "name": "Camouflage Cloth",
+        "description": "Blend into the surroundings to hide from enemies or wild creatures."
+      },
+      {
+        "id": "rope",
+        "name": "Rope",
+        "description": "A sturdy piece of rope."
       }
     ]
   },
-
   "Section3": {
     "description": "You are in Section 3. Lightning strikes in the distance.",
     "exits": {
@@ -86,18 +128,22 @@
     },
     "items": [
       {
-        "id": "lightning_stone",
-        "name": "Lightning Stone",
-        "description": "A rock charged by a lightning bolt."
+        "id": "rope",
+        "name": "Rope",
+        "description": "A sturdy piece of rope."
       },
       {
-        "id": "charred_branch",
-        "name": "Charred Branch",
-        "description": "A branch struck by lightning."
+        "id": "pouch",
+        "name": "Pouch",
+        "description": "A small bag to carry vital supplies."
+      },
+      {
+        "id": "flashlight",
+        "name": "Flashlight",
+        "description": "Illuminate dark areas to spot dangers or hidden paths."
       }
     ]
   },
-
   "Section4": {
     "description": "You are in Section 4. The ground is cracked and dry. It's hot here.",
     "exits": {
@@ -106,18 +152,27 @@
     },
     "items": [
       {
-        "id": "dried_fruit",
-        "name": "Dried Fruit",
-        "description": "A small piece of fruit, dried by the heat."
+        "id": "first_aid",
+        "name": "First Aid Kit",
+        "description": "A plastic box full of useful supplies"
       },
       {
-        "id": "cracked_pot",
-        "name": "Cracked Pot",
-        "description": "An old clay pot with cracks."
+        "id": "compass",
+        "name": "Compass",
+        "description": "To find your direction and navigate the arena safely"
+      },
+      {
+        "id": "camouflage_cloth",
+        "name": "Camouflage Cloth",
+        "description": "Blend into the surroundings to hide from enemies or wild creatures."
+      },
+      {
+        "id": "sword",
+        "name": "Sword",
+        "description": "A shiny, silver sword."
       }
     ]
   },
-
   "Section5": {
     "description": "You are in Section 5. A large body of water blocks your path.",
     "exits": {
@@ -131,13 +186,22 @@
         "description": "A half-full bottle of water."
       },
       {
+        "id": "matches",
+        "name": "Matches",
+        "description": "Could be useful for light, signals, or warmth."
+      },
+      {
         "id": "fishing_net",
         "name": "Fishing Net",
         "description": "A net useful for catching fish."
+      },
+      {
+        "id": "map",
+        "name": "Map",
+        "description": "Useful for directions."
       }
     ]
   },
-
   "Section6": {
     "description": "You are in Section 6. Bees buzz loudly. Watch out!",
     "exits": {
@@ -146,18 +210,32 @@
     },
     "items": [
       {
+        "id": "first_aid",
+        "name": "First Aid Kit",
+        "description": "A plastic box full of useful supplies"
+      },
+      {
         "id": "bee_smoke",
         "name": "Bee Smoke Canister",
         "description": "Used to calm bees."
       },
       {
-        "id": "honeycomb_piece",
-        "name": "Honeycomb Piece",
-        "description": "A small piece of honeycomb."
+        "id": "compass",
+        "name": "Compass",
+        "description": "To find your direction and navigate the arena safely"
+      },
+      {
+        "id": "chainsaw",
+        "name": "Chainsaw",
+        "description": "Powerful tool to cut through thick obstacles quickly."
+      },
+      {
+        "id": "water_bottle",
+        "name": "Water Bottle",
+        "description": "Essential for hydration and survival in the arena."
       }
     ]
   },
-
   "Section7": {
     "description": "You are in Section 7. Thick fog surrounds you. Visibility is low.",
     "exits": {
@@ -177,7 +255,6 @@
       }
     ]
   },
-
   "Section8": {
     "description": "You are in Section 8. The forest is quiet, too quiet...",
     "exits": {
@@ -185,6 +262,11 @@
       "counterclockwise": "Section7"
     },
     "items": [
+      {
+        "id": "medicine_pack",
+        "name": "Medicine Pack",
+        "description": "A plastic pack filled with medicine"
+      },
       {
         "id": "camouflage_cloth",
         "name": "Camouflage Cloth",
@@ -194,10 +276,31 @@
         "id": "quiet_boots",
         "name": "Quiet Boots",
         "description": "Soft boots that make no sound."
+      },
+      {
+        "id": "map",
+        "name": "Map",
+        "description": "Useful for directions."
       }
+      ,
+      {
+        "id": "tools",
+        "name": "Tool Kit",
+        "description": "A pack with a variety of useful tools."
+      },
+      {
+        "id": "earplugs",
+        "name": "Earplugs",
+        "description": "To block out harmful noises."
+      },
+      {
+        "id": "compass",
+        "name": "Compass",
+        "description": "Useful for directions."
+      }
+
     ]
   },
-
   "Section9": {
     "description": "You are in Section 9. You hear distant cannon shots.",
     "exits": {
@@ -206,18 +309,22 @@
     },
     "items": [
       {
-        "id": "tribute_token",
-        "name": "Tribute Token",
-        "description": "A small metal token dropped by a fallen tribute."
+        "id": "spear",
+        "name": "Spear",
+        "description": "A sharp weapon for defense and hunting."
       },
       {
-        "id": "broken_coin",
-        "name": "Broken Coin",
-        "description": "A coin broken in half."
+        "id": "rope",
+        "name": "Rope",
+        "description": "A sturdy piece of rope."
+      },
+      {
+        "id": "flashlight",
+        "name": "Flashlight",
+        "description": "Illuminate dark areas to spot dangers or hidden paths."
       }
     ]
   },
-
   "Section10": {
     "description": "You are in Section 10. A field of strange flowers surrounds you.",
     "exits": {
@@ -226,18 +333,32 @@
     },
     "items": [
       {
+        "id": "medicine_pack",
+        "name": "Medicine Pack",
+        "description": "A plastic pack filled with medicine"
+      },
+      {
         "id": "sleep_flower",
         "name": "Sleep Flower",
         "description": "Smells sweet but may be dangerous."
       },
+       {
+        "id": "camouflage_cloth",
+        "name": "Camouflage Cloth",
+        "description": "Blend into the surroundings to hide from enemies or wild creatures."
+      },
       {
-        "id": "poison_berry",
-        "name": "Poison Berry",
-        "description": "A bright red berry that looks toxic."
+        "id": "map",
+        "name": "Map",
+        "description": "Useful for directions."
+      },
+      {
+        "id": "spear",
+        "name": "Spear",
+        "description": "A sharp weapon for defense and hunting."
       }
     ]
   },
-
   "Section11": {
     "description": "You are in Section 11. The trees here are filled with tracker jackers.",
     "exits": {
@@ -254,10 +375,25 @@
         "id": "honey_pot",
         "name": "Honey Pot",
         "description": "A small pot of honey."
+      },
+      {
+        "id": "bow_and_arrow",
+        "name": "Bow and Arrow",
+        "description": "A wooden weapon, maybe helpful."
+      },
+       {
+        "id": "blanket",
+        "name": "Blanket",
+        "description": "Warmth and comfort during cold nights."
+      },
+      {
+        "id": "matches",
+        "name": "Matches",
+        "description": "Could be useful for light, signals, or warmth."
       }
+
     ]
   },
-
   "Section12": {
     "description": "You are in Section 12. You see ruins of an old building.",
     "exits": {
@@ -265,6 +401,11 @@
       "counterclockwise": "Section11"
     },
     "items": [
+      {
+        "id": "medicine_pack",
+        "name": "Medicine Pack",
+        "description": "A plastic pack filled with medicine"
+      },
       {
         "id": "broken_map",
         "name": "Broken Map",
