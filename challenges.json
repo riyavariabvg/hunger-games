@@ -4,8 +4,8 @@
     "prompt": "Dark clouds gather—a storm is coming fast.",
     "options": [
       {"command": "seek shelter", "result": "You stay dry under thick foliage.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "run through storm", "result": "You get soaked and cold.", "healthChange": 0, "success": false, "requiredInventory": ["boots"]},
-      {"command": "build shelter", "result": "You build a small shelter and stay safe.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "knife"]}
+      {"command": "run through storm", "result": "You get soaked and cold.", "healthChange": -10, "success": false, "requiredInventory": ["boots"]},
+      {"command": "build shelter", "result": "You build a small shelter and stay safe.", "healthChange": 0, "success": true, "requiredInventory": ["logs"]}
     ]
   },
   {
@@ -13,7 +13,7 @@
     "prompt": "You spot a hunter's abandoned camp with supplies.",
     "options": [
       {"command": "search camp", "result": "You enter a trap set by the Career tributes. An explosion occurs", "healthChange": -20, "success": true, "requiredInventory": []},
-      {"command": "avoid camp", "result": "You miss out on supplies but stay safe.", "healthChange": 0, "success": true, "requiredInventory": ["binoculars"]},
+      {"command": "avoid camp", "result": "You miss out on supplies but stay safe.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "set trap", "result": "You set a trap for food.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "knife"]}
     ]
   },
@@ -22,11 +22,11 @@
     "prompt": "You find a trapped rabbit in a snare.",
     "options": [
       {"command": "free rabbit", "result": "You free it but lose time.", "healthChange": -10, "success": true, "requiredInventory": []},
-      {"command": "leave rabbit alone", "result": "You keep moving forward.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
+      {"command": "leave rabbit alone", "result": "You keep moving forward.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "use rabbit for food", "result": "You get nourishment but feel guilty.", "healthChange": 10, "success": true, "requiredInventory": ["knife"]}
     ]
   },
-
+ 
   {
     "id": "Section1_A",
     "prompt": "A beast muttation designed by the Capitol charges at you, blocking your path.",
@@ -40,7 +40,7 @@
     "id": "Section1_B",
     "prompt": "You find strange berries and have not eaten yet.",
     "options": [
-      {"command": "eat berries", "result": "They are poisonous nightlock berries!", "healthChange": -10, "success": true, "requiredInventory": ["antidote"]},
+      {"command": "eat berries", "result": "They are poisonous nightlock berries!", "healthChange": -10, "success": true, "requiredInventory": []},
       {"command": "avoid berries", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "collect berries", "result": "You collect berries for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
     ]
@@ -50,18 +50,18 @@
     "prompt": "A thick thorn bush blocks the way.",
     "options": [
       {"command": "go around", "result": "You find a longer path but safe.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "push through", "result": "You get scratched.", "healthChange": -5, "success": true, "requiredInventory": ["thick_gloves"]},
+      {"command": "push through", "result": "You get scratched.", "healthChange": -5, "success": true, "requiredInventory": []},
       {"command": "wait for help", "result": "No one comes, you lose time.", "healthChange": 0, "success": false, "requiredInventory": ["flare"]}
     ]
   },
-
+ 
   {
     "id": "Section2_A",
     "prompt": "You spot a rushing river.",
     "options": [
       {"command": "swim", "result": "You get wet and tired.", "healthChange": -7, "success": true, "requiredInventory": []},
-      {"command": "build raft", "result": "Cross safely on a raft.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "axe"]},
-      {"command": "search bridge", "result": "You find a fallen log and cross carefully.", "healthChange": 0, "success": true, "requiredInventory": ["binoculars"]}
+      {"command": "build raft", "result": "Cross safely on a raft.", "healthChange": 0, "success": true, "requiredInventory": ["axe"]},
+      {"command": "search for bridge", "result": "You find a fallen log and cross carefully.", "healthChange": 0, "success": true, "requiredInventory": ["binoculars"]}
     ]
   },
   {
@@ -70,53 +70,53 @@
     "options": [
       {"command": "fight", "result": "You fight and get scratched.", "healthChange": -8, "success": true, "requiredInventory": ["spear"]},
       {"command": "run", "result": "You outrun the wolf.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": ["camouflage_cloak"]}
+      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": ["camouflage_cloth"]}
     ]
   },
   {
     "id": "Section2_C",
     "prompt": "You find a small cave, could be shelter or danger.",
     "options": [
-      {"command": "enter cave", "result": "You find shelter and rest.", "healthChange": 5, "success": true, "requiredInventory": ["torch"]},
+      {"command": "enter cave", "result": "You find shelter and rest.", "healthChange": 5, "success": true, "requiredInventory": []},
       {"command": "avoid cave", "result": "You keep moving and get tired.", "healthChange": -5, "success": false, "requiredInventory": []},
-      {"command": "wait outside", "result": "You wait safely until morning.", "healthChange": 0, "success": true, "requiredInventory": ["sleeping_bag"]}
+      {"command": "wait outside", "result": "While sleeping, a Career tribute attacks you.", "healthChange": -10, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section3_A",
     "prompt": "You see your district partner trapped in quicksand",
     "options": [
-      {"command": "pull them out", "result": "They express their gratitude by giving you medicine", "healthChange": 10, "success": true, "requiredInventory": ["rope"]},
-      {"command": "look the other way", "result": "You take longer but safe path.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "rest and plan", "result": "You recover energy before climbing.", "healthChange": 5, "success": true, "requiredInventory": ["map"]}
+      {"command": "pull them out", "result": "You fall into the quicksand", "healthChange": -10, "success": true, "requiredInventory": ["rope"]},
+      {"command": "look the other way", "result": "You feel guilty but you remain safe.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "yell instructions", "result": "They express their gratitude by giving you medicine.", "healthChange": 10, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section3_B",
     "prompt": "You find a strange healing herb.",
     "options": [
-      {"command": "use herb", "result": "It heals your wounds.", "healthChange": 8, "success": true, "requiredInventory": ["herb_guide"]},
+      {"command": "use herb", "result": "It heals your wounds.", "healthChange": 8, "success": true, "requiredInventory": []},
       {"command": "leave herb alone", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "save herb", "result": "You keep it for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
     ]
   },
   {
     "id": "Section3_C",
-    "prompt": "Your foot is caught in a trap.",
+    "prompt": "Hunger Games host Caesar Flickerman announces new life-saving supplies at the Cornucopia. They may disappear soon...",
     "options": [
-      {"command": "force free", "result": "You sprain your ankle.", "healthChange": -10, "success": true, "requiredInventory": []},
-      {"command": "call for help", "result": "No one hears you.", "healthChange": -15, "success": false, "requiredInventory": ["whistle"]},
-      {"command": "carefully free", "result": "You free yourself slowly.", "healthChange": -5, "success": true, "requiredInventory": ["lockpicks"]}
+      {"command": "stay where you are", "result": "You miss out on resources but avoid the risk.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "go to cornucopia now", "result": "Fighting breaks out. A career tribute attacks you for the supplies in your hand.", "healthChange": -15, "success": false, "requiredInventory": []},
+      {"command": "go to cornucopia at night", "result": "You ontain the last remaining first aid kit.", "healthChange": 5, "success": true, "requiredInventory": ["flashlight"]}
     ]
   },
-
+ 
   {
     "id": "Section4_A",
     "prompt": "You find a fast-moving river crossing.",
     "options": [
       {"command": "swim across", "result": "You barely make it, very tired.", "healthChange": -10, "success": true, "requiredInventory": []},
-      {"command": "build raft", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "axe"]},
+      {"command": "build raft from tree", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "look for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]}
     ]
   },
@@ -124,37 +124,37 @@
     "id": "Section4_B",
     "prompt": "You hear footsteps behind you.",
     "options": [
-      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "confront", "result": "It's a friendly district 12 ally.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
-      {"command": "run", "result": "You trip and get hurt.", "healthChange": -8, "success": false, "requiredInventory": ["boots"]}
+      {"command": "climb tree", "result": "A tracker jacker hive falls on you causing severe stings.", "healthChange": -20, "success": true, "requiredInventory": []},
+      {"command": "confront", "result": "It's a friendly district 12 ally.", "healthChange": 0, "success": true, "requiredInventory": ["sword"]},
+      {"command": "hide", "result": "You successfully avoid the threat.", "healthChange": 0, "success": false, "requiredInventory": ["camouflage_cloth"]}
     ]
   },
   {
     "id": "Section4_C",
     "prompt": "You find edible mushrooms.",
     "options": [
-      {"command": "eat mushrooms", "result": "They boost your health.", "healthChange": 7, "success": true, "requiredInventory": ["mushroom_guide"]},
+      {"command": "eat mushrooms", "result": "They boost your energy.", "healthChange": 10, "success": true, "requiredInventory": []},
       {"command": "leave mushrooms alone", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]}
+      {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section5_A",
     "prompt": "A swarm of bees surrounds you.",
     "options": [
       {"command": "run", "result": "You get stung a few times.", "healthChange": -7, "success": true, "requiredInventory": []},
-      {"command": "stay still", "result": "Bees lose interest and leave.", "healthChange": 0, "success": true, "requiredInventory": ["bee_suit"]},
-      {"command": "smoke bees", "result": "You scare them away safely.", "healthChange": 0, "success": true, "requiredInventory": ["fire_starter", "green_leaves"]}
+      {"command": "stay still", "result": "Bees lose interest and leave.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "smoke bees", "result": "You scare them away safely.", "healthChange": 0, "success": true, "requiredInventory": ["matches"]}
     ]
   },
   {
     "id": "Section5_B",
-    "prompt": "You come across a berry patch.",
+    "prompt": "You are starving and must choose something to eat.",
     "options": [
-      {"command": "eat berries", "result": "Delicious and healthy.", "healthChange": 6, "success": true, "requiredInventory": ["berry_guide"]},
-      {"command": "pick berries", "result": "You collect for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]},
-      {"command": "leave berries alone", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []}
+      {"command": "eat rabbit", "result": "You begin to hallucinate.", "healthChange": -5, "success": true, "requiredInventory": []},
+      {"command": "eat mushrooms", "result": "Delicious and healthy.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "eat berries", "result": "These berries are safe to eat.", "healthChange": 10, "success": true, "requiredInventory": []}
     ]
   },
   {
@@ -162,18 +162,18 @@
     "prompt": "You find a narrow ledge to cross.",
     "options": [
       {"command": "cross carefully", "result": "You make it safely.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "jump across", "result": "You slip and hurt yourself.", "healthChange": -10, "success": false, "requiredInventory": ["athletic_shoes"]},
+      {"command": "jump across", "result": "You slip and hurt yourself.", "healthChange": -10, "success": false, "requiredInventory": []},
       {"command": "find another way", "result": "It takes longer but safe.", "healthChange": 0, "success": true, "requiredInventory": ["map"]}
     ]
   },
-
+ 
   {
     "id": "Section6_A",
     "prompt": "A sudden earthquake shakes the ground.",
     "options": [
       {"command": "cover", "result": "You protect yourself successfully.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "run", "result": "You trip and get hurt.", "healthChange": -10, "success": false, "requiredInventory": ["helmet"]},
-      {"command": "freeze", "result": "You avoid panic but lose time.", "healthChange": 0, "success": false, "requiredInventory": ["emergency_kit"]}
+      {"command": "run", "result": "You trip and get hurt.", "healthChange": -10, "success": false, "requiredInventory": []},
+      {"command": "freeze", "result": "You avoid panic but lose time.", "healthChange": 0, "success": false, "requiredInventory": []}
     ]
   },
   {
@@ -191,81 +191,81 @@
     "options": [
       {"command": "drink water", "result": "You feel refreshed.", "healthChange": 5, "success": true, "requiredInventory": []},
       {"command": "fill bottle", "result": "You store water for later.", "healthChange": 0, "success": true, "requiredInventory": ["water_bottle"]},
-      {"command": "leave water", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": ["water_purifier"]}
+      {"command": "leave water", "result": "You begin to feel the effects of dehydration.", "healthChange": -10, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section7_A",
     "prompt": "You encounter a snake blocking your path.",
     "options": [
       {"command": "scare snake", "result": "Snake slithers away.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "step over", "result": "You get bitten.", "healthChange": -15, "success": false, "requiredInventory": ["snake_boots"]},
-      {"command": "wait", "result": "Snake leaves after a while.", "healthChange": 0, "success": true, "requiredInventory": ["patience_charm"]}
+      {"command": "step over", "result": "You get bitten.", "healthChange": -15, "success": false, "requiredInventory": []},
+      {"command": "wait", "result": "Snake leaves after a while.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section7_B",
     "prompt": "You find an old map on the ground.",
     "options": [
-      {"command": "use map", "result": "It helps you find a shortcut.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]},
+      {"command": "use map", "result": "It helps you find a shortcut.", "healthChange": 0, "success": true, "requiredInventory": []},
       {"command": "leave map", "result": "You continue as before.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "keep map", "result": "You save it for later.", "healthChange": 0, "success": true, "requiredInventory": ["backpack"]}
+      {"command": "keep map", "result": "You save it for later.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section7_C",
-    "prompt": "You see smoke in the distance.",
+    "prompt": "You see fog in the distance.",
     "options": [
-      {"command": "investigate", "result": "You find a helpful campsite.", "healthChange": 5, "success": true, "requiredInventory": []},
-      {"command": "avoid smoke", "result": "You stay safe but miss help.", "healthChange": 0, "success": true, "requiredInventory": ["gas_mask"]},
-      {"command": "call out", "result": "No response.", "healthChange": 0, "success": false, "requiredInventory": ["megaphone"]}
+      {"command": "remain in shelter", "result": "The fog causes temporary paralysis.", "healthChange": -20, "success": true, "requiredInventory": []},
+      {"command": "avoid fog", "result": "You stay safe but miss help.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "call out", "result": "Your call attracts Career tributes. They have claimed your shelter.", "healthChange": -5, "success": false, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section8_A",
     "prompt": "You come across a broken bridge.",
     "options": [
-      {"command": "repair bridge", "result": "You fix it and cross safely.", "healthChange": -3, "success": true, "requiredInventory": ["tools", "wood"]},
-      {"command": "jump over", "result": "You fall and get hurt.", "healthChange": -12, "success": false, "requiredInventory": []},
+      {"command": "repair bridge", "result": "You fix it and cross safely.", "healthChange": -3, "success": true, "requiredInventory": ["tools"]},
+      {"command": "jump over", "result": "You fall and get hurt.", "healthChange": -10, "success": false, "requiredInventory": []},
       {"command": "find another way", "result": "It takes longer but safe.", "healthChange": 0, "success": true, "requiredInventory": ["map"]}
     ]
   },
   {
     "id": "Section8_B",
-    "prompt": "You find a mysterious glowing stone.",
+    "prompt": "Lightning crashes over you.",
     "options": [
-      {"command": "grab stone", "result": "You feel energized.", "healthChange": 7, "success": true, "requiredInventory": ["magic_gloves"]},
+      {"command": "grab stone", "result": "You feel energized.", "healthChange": 7, "success": true, "requiredInventory": []},
       {"command": "leave stone", "result": "You avoid potential danger.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "examine stone", "result": "You learn about its properties.", "healthChange": 0, "success": true, "requiredInventory": ["magnifying_glass"]}
+      {"command": "examine stone", "result": "You learn about its properties.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section8_C",
-    "prompt": "A sudden landslide blocks your path.",
+    "prompt": "Jabberjay screams surround you.",
     "options": [
-      {"command": "climb over", "result": "You get scratched but cross.", "healthChange": -7, "success": true, "requiredInventory": []},
-      {"command": "wait", "result": "Landslide clears after hours.", "healthChange": 0, "success": true, "requiredInventory": ["food", "water"]},
+      {"command": "cover ears", "result": "You are scared by the screams but recover quickly.", "healthChange": -10, "success": true, "requiredInventory": []},
+      {"command": "use earplugs", "result": "The earplugs silence the screams.", "healthChange": 0, "success": true, "requiredInventory": ["earplugs"]},
       {"command": "find alternate route", "result": "It takes longer but safe.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]}
     ]
   },
   {
     "id": "Section9_A",
-    "prompt": "A wild boar charges at you, blocking your path.",
+    "prompt": "A massive wall of water crashes toward you - a tsunami is coming.",
     "options": [
-      {"command": "fight", "result": "You fight but get hurt.", "healthChange": -10, "success": true, "requiredInventory": ["spear"]},
-      {"command": "dodge", "result": "You dodge successfully.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "use a raft", "result": "You float until the tsunami passes.", "healthChange": 0, "success": true, "requiredInventory": ["spear"]},
+      {"command": "run", "result": "The tsunami is too fast, you struggle to stay afloat", "healthChange": -50, "success": true, "requiredInventory": []},
       {"command": "climb tree", "result": "You wait safely in a tree.", "healthChange": 0, "success": true, "requiredInventory": ["rope"]}
     ]
   },
   {
     "id": "Section9_B",
-    "prompt": "You find strange berries that might be poisonous.",
+    "prompt": "You are surrounded by complete darkness.",
     "options": [
-      {"command": "eat berries", "result": "They boost your energy!", "healthChange": 5, "success": true, "requiredInventory": ["antidote"]},
-      {"command": "avoid berries", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "collect berries", "result": "You collect berries for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
+      {"command": "light a fire", "result": "The Career tributes spot your fire and attack you.", "healthChange": -50, "success": true, "requiredInventory": []},
+      {"command": "turn on flashlight", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": ["flashlight"]},
+      {"command": "remain in the dark", "result": "You fail to see an approaching beast muttation.", "healthChange": -30, "success": true, "requiredInventory": []}
     ]
   },
   {
@@ -273,18 +273,18 @@
     "prompt": "A thick thorn bush blocks the way.",
     "options": [
       {"command": "go around", "result": "You find a longer path but safe.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "push through", "result": "You get scratched.", "healthChange": -5, "success": true, "requiredInventory": ["thick_gloves"]},
-      {"command": "wait for help", "result": "No one comes, you lose time.", "healthChange": 0, "success": false, "requiredInventory": ["flare"]}
+      {"command": "push through", "result": "You get scratched.", "healthChange": -5, "success": true, "requiredInventory": []},
+      {"command": "wait for help", "result": "No one comes, you lose time.", "healthChange": 0, "success": false, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section10_A",
     "prompt": "You spot a rushing river.",
     "options": [
       {"command": "swim", "result": "You get wet and tired.", "healthChange": -7, "success": true, "requiredInventory": []},
-      {"command": "build raft", "result": "Cross safely on a raft.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "axe"]},
-      {"command": "search bridge", "result": "You find a fallen log and cross carefully.", "healthChange": 0, "success": true, "requiredInventory": ["binoculars"]}
+      {"command": "build raft", "result": "Cross safely on a raft.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "search bridge", "result": "You find a fallen log and cross carefully.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
@@ -293,72 +293,72 @@
     "options": [
       {"command": "fight", "result": "You fight and get scratched.", "healthChange": -8, "success": true, "requiredInventory": ["spear"]},
       {"command": "run", "result": "You outrun the wolf.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": ["camouflage_cloak"]}
+      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": ["camouflage_cloth"]}
     ]
   },
   {
     "id": "Section10_C",
-    "prompt": "You find a small cave, could be shelter or danger.",
+    "prompt": "You encounter a landmine field. Avoid the hidden explosives.",
     "options": [
-      {"command": "enter cave", "result": "You find shelter and rest.", "healthChange": 5, "success": true, "requiredInventory": ["torch"]},
-      {"command": "avoid cave", "result": "You keep moving and get tired.", "healthChange": -5, "success": false, "requiredInventory": []},
-      {"command": "wait outside", "result": "You wait safely until morning.", "healthChange": 0, "success": true, "requiredInventory": ["sleeping_bag"]}
+      {"command": "use map", "result": "You safely cross the field.", "healthChange": 0, "success": true, "requiredInventory": ["map"]},
+      {"command": "take route 1", "result": "You set off an explosive.", "healthChange": -100, "success": false, "requiredInventory": []},
+      {"command": "take route 2", "result": "You safely cross the field.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section11_A",
-    "prompt": "A steep cliff blocks your path.",
+    "prompt": "You face a Career tribute.",
     "options": [
-      {"command": "climb", "result": "You climb but scrape your hands.", "healthChange": -5, "success": true, "requiredInventory": ["climbing_gear"]},
-      {"command": "find another way", "result": "You take longer but safe path.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "rest and plan", "result": "You recover energy before climbing.", "healthChange": 5, "success": true, "requiredInventory": ["map"]}
+      {"command": "shoot", "result": "You scare the tribute away.", "healthChange": 0, "success": true, "requiredInventory": ["bow_and_arrow"]},
+      {"command": "negotiate", "result": "Your negotiation is successful.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "run", "result": "You get away but trip on a log.", "healthChange": -5, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section11_B",
-    "prompt": "You find a strange healing herb.",
+    "prompt": "You reach a fork in the path. Choose which path to continue on.",
     "options": [
-      {"command": "use herb", "result": "It heals your wounds.", "healthChange": 8, "success": true, "requiredInventory": ["herb_guide"]},
-      {"command": "leave herb", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "save herb", "result": "You keep it for later.", "healthChange": 0, "success": true, "requiredInventory": ["pouch"]}
+      {"command": "sand", "result": "You get stuck in quicksand.", "healthChange": -10, "success": true, "requiredInventory": []},
+      {"command": "wet grass", "result": "You avoid risk.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "cement", "result": "You fall into a hole.", "healthChange": -10, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section11_C",
-    "prompt": "Your foot is caught in a trap.",
+    "prompt": "Temperatures suddenly drop.",
     "options": [
-      {"command": "force free", "result": "You sprain your ankle.", "healthChange": -10, "success": true, "requiredInventory": []},
-      {"command": "call for help", "result": "No one hears you.", "healthChange": -15, "success": false, "requiredInventory": ["whistle"]},
-      {"command": "carefully free", "result": "You free yourself slowly.", "healthChange": -5, "success": true, "requiredInventory": ["lockpicks"]}
+      {"command": "make a fire", "result": "You stay warm.", "healthChange": 0, "success": true, "requiredInventory": ["matches"]},
+      {"command": "search for shelter", "result": "You catch a cold while searching.", "healthChange": -10, "success": false, "requiredInventory": []},
+      {"command": "bundle up", "result": "You gather under blankets.", "healthChange": -5, "success": true, "requiredInventory": ["blanket"]}
     ]
   },
-
+ 
   {
     "id": "Section12_A",
     "prompt": "You find a fast-moving river crossing.",
     "options": [
       {"command": "swim across", "result": "You barely make it, very tired.", "healthChange": -10, "success": true, "requiredInventory": []},
-      {"command": "build raft", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": ["rope", "axe"]},
-      {"command": "look for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": ["compass"]}
+      {"command": "build raft", "result": "You cross safely.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "look for bridge", "result": "You find a bridge after a long walk.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
   {
     "id": "Section12_B",
-    "prompt": "You hear footsteps behind you.",
+    "prompt": "You hear snoring near you.",
     "options": [
-      {"command": "hide", "result": "You hide and avoid danger.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "confront", "result": "It's a friendly ally from district 8.", "healthChange": 0, "success": true, "requiredInventory": ["weapon"]},
-      {"command": "run", "result": "You trip and get hurt.", "healthChange": -8, "success": false, "requiredInventory": ["boots"]}
+      {"command": "investigate", "result": "You kill the tribute - the accomplishment gains you supplies from sponsors.", "healthChange": 5, "success": true, "requiredInventory": []},
+      {"command": "confront", "result": "It's a friendly ally from district 8.", "healthChange": 0, "success": true, "requiredInventory": []},
+      {"command": "run", "result": "You trip and get hurt.", "healthChange": -5, "success": false, "requiredInventory": []}
     ]
   },
   {
     "id": "Section12_C",
-    "prompt": "You find edible mushrooms.",
+    "prompt": "You are tired and need rest.",
     "options": [
-      {"command": "eat mushrooms", "result": "They boost your health.", "healthChange": 7, "success": true, "requiredInventory": ["mushroom_guide"]},
-      {"command": "leave mushrooms", "result": "You play it safe.", "healthChange": 0, "success": true, "requiredInventory": []},
-      {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": ["basket"]}
+      {"command": "sleep in the trees", "result": "You receive a proper rest and are energized.", "healthChange": 5, "success": true, "requiredInventory": []},
+      {"command": "sleep in cave", "result": "A wolf attacks you.", "healthChange": -30, "success": true, "requiredInventory": []},
+      {"command": "sleep on ground", "result": "A career tribute kills you.", "healthChange": -100, "success": true, "requiredInventory": []}
     ]
   }
 ]
