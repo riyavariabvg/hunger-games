@@ -26,7 +26,7 @@
       {"command": "use rabbit for food", "result": "You get nourishment but feel guilty.", "healthChange": 10, "success": true, "requiredInventory": ["knife"]}
     ]
   },
-
+ 
   {
     "id": "Section1_A",
     "prompt": "A beast muttation designed by the Capitol charges at you, blocking your path.",
@@ -54,7 +54,7 @@
       {"command": "wait for help", "result": "No one comes, you lose time.", "healthChange": 0, "success": false, "requiredInventory": ["flare"]}
     ]
   },
-
+ 
   {
     "id": "Section2_A",
     "prompt": "You spot a rushing river.",
@@ -82,7 +82,7 @@
       {"command": "wait outside", "result": "While sleeping, a Career tribute attacks you.", "healthChange": -10, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section3_A",
     "prompt": "You see your district partner trapped in quicksand",
@@ -110,7 +110,7 @@
       {"command": "go to cornucopia at night", "result": "You ontain the last remaining first aid kit.", "healthChange": 5, "success": true, "requiredInventory": ["flashlight"]}
     ]
   },
-
+ 
   {
     "id": "Section4_A",
     "prompt": "You find a fast-moving river crossing.",
@@ -138,7 +138,7 @@
       {"command": "collect mushrooms", "result": "You store them for later.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section5_A",
     "prompt": "A swarm of bees surrounds you.",
@@ -166,7 +166,7 @@
       {"command": "find another way", "result": "It takes longer but safe.", "healthChange": 0, "success": true, "requiredInventory": ["map"]}
     ]
   },
-
+ 
   {
     "id": "Section6_A",
     "prompt": "A sudden earthquake shakes the ground.",
@@ -194,7 +194,7 @@
       {"command": "leave water", "result": "You begin to feel the effects of dehydration.", "healthChange": -10, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section7_A",
     "prompt": "You encounter a snake blocking your path.",
@@ -222,7 +222,7 @@
       {"command": "call out", "result": "Your call attracts Career tributes. They have claimed your shelter.", "healthChange": -5, "success": false, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section8_A",
     "prompt": "You come across a broken bridge.",
@@ -277,7 +277,7 @@
       {"command": "wait for help", "result": "No one comes, you lose time.", "healthChange": 0, "success": false, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section10_A",
     "prompt": "You spot a rushing river.",
@@ -305,7 +305,7 @@
       {"command": "take route 2", "result": "You safely cross the field.", "healthChange": 0, "success": true, "requiredInventory": []}
     ]
   },
-
+ 
   {
     "id": "Section11_A",
     "prompt": "You face a Career tribute.",
@@ -333,7 +333,7 @@
       {"command": "bundle up", "result": "You gather under blankets.", "healthChange": -5, "success": true, "requiredInventory": ["blanket"]}
     ]
   },
-
+ 
   {
     "id": "Section12_A",
     "prompt": "You find a fast-moving river crossing.",
