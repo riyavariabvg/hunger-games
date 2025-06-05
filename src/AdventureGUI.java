@@ -15,6 +15,7 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JLabel healthLabel;
     private JLabel medicineLabel; // Add medicine label
     private JLabel challengesLabel;
+    private JLabel restartLabel; // Add restart instruction label
     private JScrollPane scrollPane;
     private SpinnerPanel spinnerPanel; // Add this field
     private ImageIcon icon;
@@ -23,6 +24,10 @@ public class AdventureGUI extends JFrame implements ActionListener {
     private JPanel inventoryPanel;
     private JList<String> inventoryList;
     private DefaultListModel<String> inventoryListModel;
+    
+    // Store references to main layout components for restart functionality
+    private JPanel centerPanel;
+    private JPanel rightPanel;
 
     // = new ImageIcon("src/images/HungerGamesLogo.png");
     // private JLabel imageLabel = new JLabel(icon);
@@ -62,72 +67,23 @@ public class AdventureGUI extends JFrame implements ActionListener {
         
         challengesLabel = new JLabel("Challenges: 0/3");
         challengesLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        
+        // Add restart instruction label
+        restartLabel = new JLabel("Type 'restart' to restart");
+        restartLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 11));
+        restartLabel.setForeground(Color.GRAY);
 
         statusPanel.add(healthLabel);
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(medicineLabel); // Add medicine to status panel
         statusPanel.add(Box.createHorizontalStrut(20));
         statusPanel.add(challengesLabel);
+        statusPanel.add(Box.createHorizontalStrut(30)); // Extra space before restart instruction
+        statusPanel.add(restartLabel);
 
         // Create a panel to hold both the game output and right side panels
-        JPanel centerPanel = new JPanel(new BorderLayout());
-
-        // create output area
-        outputArea = new JTextArea();
-        outputArea.setEditable(false);
-        outputArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
-        outputArea.setBackground(new Color(34, 49, 29));
-        outputArea.setForeground(new Color(230, 230, 230));
-        outputArea.setCaretColor(Color.GREEN);
-        outputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
-        outputArea.setLineWrap(true);
-        outputArea.setWrapStyleWord(true);
-
-        scrollPane = new JScrollPane(outputArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Game Output"));
-
-        // Add the game output to the center
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Create right side panel to hold both spinner and inventory
-        JPanel rightPanel = new JPanel(new BorderLayout(5, 5));
-        rightPanel.setPreferredSize(new Dimension(300, 0)); // Increased from 280 to 300
-
-        // Add hunger games logo - make it smaller
-        ImageIcon icon = new ImageIcon("src/images/HungerGamesLogo.png");
-        Image scaledImage = icon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH); // Reduced from 180x100
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        JLabel logoLabel = new JLabel(resizedIcon);
-        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-        // Create a panel for the spinner with flexible sizing
-        JPanel spinnerContainer = new JPanel(new BorderLayout());
-        spinnerContainer.setBorder(BorderFactory.createTitledBorder("Game Spinner"));
-        
-        // Add the spinner directly without size constraints
-        spinnerPanel.setPreferredSize(new Dimension(270, 270)); // Increased from 250 to 270
-        
-        // Add the logo above spinner in spinnerContainer
-        spinnerContainer.add(logoLabel, BorderLayout.NORTH);
-        spinnerContainer.add(spinnerPanel, BorderLayout.CENTER);
-
-        // Add instruction label - make it smaller
-        JLabel instructionLabel = new JLabel(
-                "<html><center>Type 'clockwise' or<br>'counterclockwise'<br>to rotate the spinner</center></html>");
-        instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 9)); // Smaller font
-        spinnerContainer.add(instructionLabel, BorderLayout.SOUTH);
-
-        // Create inventory panel
-        createInventoryPanel();
-
-        // Add both spinner and inventory to right panel with proper sizing
-        rightPanel.add(spinnerContainer, BorderLayout.NORTH);
-        rightPanel.add(inventoryPanel, BorderLayout.CENTER);
-
-        // Add the right panel to the center panel
-        centerPanel.add(rightPanel, BorderLayout.EAST);
+        centerPanel = new JPanel(new BorderLayout());
+        setupGameContent(); // Setup the normal game content
 
         // create input panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
@@ -165,6 +121,80 @@ public class AdventureGUI extends JFrame implements ActionListener {
         inputField.requestFocus();
 
         setVisible(true);
+    }
+    
+    private void setupGameContent() {
+        // Clear the center panel completely
+        centerPanel.removeAll();
+        
+        // Force the panel to update its layout immediately
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // create output area
+        outputArea = new JTextArea();
+        outputArea.setEditable(false);
+        outputArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+        outputArea.setBackground(new Color(34, 49, 29));
+        outputArea.setForeground(new Color(230, 230, 230));
+        outputArea.setCaretColor(Color.GREEN);
+        outputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
+
+        scrollPane = new JScrollPane(outputArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Game Output"));
+
+        // Add the game output to the center
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Create right side panel to hold both spinner and inventory
+        rightPanel = new JPanel(new BorderLayout(5, 5));
+        rightPanel.setPreferredSize(new Dimension(300, 0)); // Increased from 280 to 300
+
+        // Add hunger games logo - make it smaller
+        ImageIcon icon = new ImageIcon("src/images/HungerGamesLogo.png");
+        Image scaledImage = icon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH); // Reduced from 180x100
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        JLabel logoLabel = new JLabel(resizedIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Create a panel for the spinner with flexible sizing
+        JPanel spinnerContainer = new JPanel(new BorderLayout());
+        spinnerContainer.setBorder(BorderFactory.createTitledBorder("Game Spinner"));
+        
+        // Add the spinner directly without size constraints
+        spinnerPanel.setPreferredSize(new Dimension(270, 270)); // Increased from 250 to 270
+        
+        // Add the logo above spinner in spinnerContainer
+        spinnerContainer.add(logoLabel, BorderLayout.NORTH);
+        spinnerContainer.add(spinnerPanel, BorderLayout.CENTER);
+
+        // Add instruction label - make it smaller
+        JLabel instructionLabel = new JLabel(
+                "<html><center>Type 'clockwise' or<br>'counterclockwise'<br>to rotate the spinner</center></html>");
+        instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        instructionLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 9)); // Smaller font
+        spinnerContainer.add(instructionLabel, BorderLayout.SOUTH);
+
+        // Create inventory panel
+        createInventoryPanel();
+
+        // Add both spinner and inventory to right panel with proper sizing
+        rightPanel.add(spinnerContainer, BorderLayout.NORTH);
+        rightPanel.add(inventoryPanel, BorderLayout.CENTER);
+
+        // Add the right panel to the center panel
+        centerPanel.add(rightPanel, BorderLayout.EAST);
+        
+        // Force complete refresh of the display
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // Also refresh the parent container to ensure complete update
+        this.revalidate();
+        this.repaint();
     }
 
     private void createInventoryPanel() {
@@ -281,11 +311,50 @@ public class AdventureGUI extends JFrame implements ActionListener {
             medicineLabel.setForeground(Color.BLUE);
         }
     }
-
+    
+    // Method to reset the GUI to normal game state (called when restarting)
+    public void resetToGameState() {
+    // First restart the game logic
+    game.restart();
+    
+    // Clear the center panel completely
+    centerPanel.removeAll();
+    centerPanel.revalidate();
+    centerPanel.repaint();
+    
+    // Wait a moment for the UI to update, then setup the game content
+    SwingUtilities.invokeLater(() -> {
+        setupGameContent();
+        
+        // Clear and reset the output area
+        if (outputArea != null) {
+            outputArea.setText("");
+            displayMessage(game.getStartMessage());
+        }
+        
+        // Update all status displays
+        updateStatusLabels();
+        updateInventoryDisplay();
+        
+        // Clear input field and set focus
+        inputField.setText("");
+        inputField.requestFocus();
+    });
+}
     private void processInput() {
         String input = inputField.getText().trim();
         if (!input.isEmpty()) {
             displayMessage("> " + input);
+            
+            // Check for restart command specifically
+            if (input.toLowerCase().equals("restart")) {
+                // Clear input field first
+                inputField.setText("");
+                // Handle restart directly in GUI
+                resetToGameState();
+                return;
+            }
+            
             String response = game.processCommand(input);
             displayMessage(response);
             updateStatusLabels(); // This will also update inventory display
@@ -302,13 +371,28 @@ public class AdventureGUI extends JFrame implements ActionListener {
     }
 
     public void gameOver() {
-        // Remove all components from the frame
-        getContentPane().removeAll();
-        repaint();
-
-        // Load and scale the Game Over image
+        // Replace only the center content (game output and right panel) with the game over image
+        // Keep the status panel, input panel, and input functionality
+        
+        // Remove the existing center content
+        centerPanel.removeAll();
+        
+        // Force immediate layout update
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // Load and scale the Game Over image to fit the center area
         ImageIcon gameOverIcon = new ImageIcon("src/images/GameOver.png");
-        Image image = gameOverIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        
+        // Get the size of the center panel for proper scaling
+        Dimension centerSize = centerPanel.getSize();
+        if (centerSize.width == 0 || centerSize.height == 0) {
+            // Fallback size if panel hasn't been sized yet
+            centerSize = new Dimension(950, 500);
+        }
+        
+        Image image = gameOverIcon.getImage().getScaledInstance(
+            centerSize.width, centerSize.height, Image.SCALE_SMOOTH);
         gameOverIcon = new ImageIcon(image);
 
         // Create a label with the image
@@ -316,22 +400,40 @@ public class AdventureGUI extends JFrame implements ActionListener {
         gameOverLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gameOverLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-        // Add it to the frame
-        add(gameOverLabel);
+        // Add the game over image to the center panel
+        centerPanel.add(gameOverLabel, BorderLayout.CENTER);
 
-        // Refresh the frame
-        revalidate();
-        repaint();
+        // Refresh the display
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // Keep the input field active so player can type 'restart'
+        inputField.requestFocus();
     }
 
     public void victory() {
-        // Remove all components from the frame
-        getContentPane().removeAll();
-        repaint();
-
-        // Load and scale the Victory image
+        // Replace only the center content (game output and right panel) with the victory image
+        // Keep the status panel, input panel, and input functionality
+        
+        // Remove the existing center content
+        centerPanel.removeAll();
+        
+        // Force immediate layout update
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // Load and scale the Victory image to fit the center area
         ImageIcon victoryIcon = new ImageIcon("src/images/Victory.png");
-        Image image = victoryIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        
+        // Get the size of the center panel for proper scaling
+        Dimension centerSize = centerPanel.getSize();
+        if (centerSize.width == 0 || centerSize.height == 0) {
+            // Fallback size if panel hasn't been sized yet
+            centerSize = new Dimension(950, 500);
+        }
+        
+        Image image = victoryIcon.getImage().getScaledInstance(
+            centerSize.width, centerSize.height, Image.SCALE_SMOOTH);
         victoryIcon = new ImageIcon(image);
 
         // Create a label with the image
@@ -339,11 +441,14 @@ public class AdventureGUI extends JFrame implements ActionListener {
         victoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
         victoryLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-        // Add it to the frame
-        add(victoryLabel);
+        // Add the victory image to the center panel
+        centerPanel.add(victoryLabel, BorderLayout.CENTER);
 
-        // Refresh the frame
-        revalidate();
-        repaint();
+        // Refresh the display
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        
+        // Keep the input field active
+        inputField.requestFocus();
     }
 }

@@ -550,15 +550,34 @@ public class Game {
     }
 
     public void restart() {
-        this.player = new Player();
-        this.currentChallenge = null;
-        this.medicineCount = 0; // Reset medicine count
-        // Reset all room challenge completions
-        for (String roomId : rooms.keySet()) {
-            roomChallengeCompletions.put(roomId, 0);
-        }
-        addMedicineVialToPlayer(); // Re-add medicine vial to inventory
+    // Create a completely new player instance
+    this.player = new Player();
+    
+    // Clear current challenge
+    this.currentChallenge = null;
+    
+    // Reset medicine count to 0
+    this.medicineCount = 0;
+    
+    // Reset all room challenge completions
+    for (String roomId : rooms.keySet()) {
+        roomChallengeCompletions.put(roomId, 0);
     }
+    
+    // Reload game data to reset room inventories
+    loadGameData();
+    
+    // Re-initialize room challenges
+    initializeRoomChallenges();
+    
+    // Add the starting medicine vial to the new player's inventory
+    addMedicineVialToPlayer();
+    
+    // Update the GUI if it exists
+    if (gui != null) {
+        gui.updateMedicineDisplay(medicineCount);
+    }
+}
 
     private String getHelpText() {
         return "Available commands:\n" +
@@ -567,7 +586,7 @@ public class Game {
                 "- take <item>: Take an item from the room\n" +
                 "- drop <item>: Drop an item from your inventory\n" +
                 "- inventory (or inv): Show your inventory and items you're carrying\n" +
-                "- ignore/start: ignores inventory to move on to challenges\n" +
+                "- ignore: ignores inventory to move on to challenges\n" +
                 "- health: Show your health, medicine, and status\n" +
                 "- use <amount> medicine: Use medicine to restore health (e.g., 'use 5 medicine')\n" +
                 "- clockwise: Move clockwise (when available)\n" +
